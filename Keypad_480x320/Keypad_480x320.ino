@@ -1,7 +1,3 @@
-// Use this calibration code in setup():
-uint16_t calData[5] = { 301, 3495, 393, 3211, 7 };
-tft.setTouch(calData);
-
 /*
   The TFT_eSPI library incorporates an Adafruit_GFX compatible
   button handling class, this sketch is based on the Arduin-o-phone
@@ -107,6 +103,11 @@ void setup() {
 
   // Draw keypad
   drawKeypad();
+
+
+// Use this calibration code in setup():
+uint16_t calData[5] = { 301, 3495, 393, 3211, 7 };
+tft.setTouch(calData);
 }
 
 //------------------------------------------------------------------------------------------
