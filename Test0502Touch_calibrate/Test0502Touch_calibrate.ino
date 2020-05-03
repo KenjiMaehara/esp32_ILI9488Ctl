@@ -67,7 +67,9 @@ void loop(void) {
 
   //TFT_Rainbow480();
   screen001(calData);
-  
+  screen002(calData);
+  screen003(calData);
+  screen004(calData);
 }
 
 
