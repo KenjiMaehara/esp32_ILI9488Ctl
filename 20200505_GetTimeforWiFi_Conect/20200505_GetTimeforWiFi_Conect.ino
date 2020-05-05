@@ -6,6 +6,9 @@
 #include <WiFi.h>
 #include "time.h"
 
+#include <Wire.h>
+#include <RTClib.h>
+
 const char* ssid       = "Buffalo-G-6098";   //YOUR_SSID:MEL"Buffalo-A-6098"
 const char* password   = "4vheeeg737sby";   //YOUR_PASS:MEL"4vheeeg737sby"
 
@@ -23,7 +26,7 @@ void printLocalTime()
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");   // 
 }
 
-void setup()
+void Wifi_setup()
 {
   Serial.begin(115200);
   
@@ -45,8 +48,16 @@ void setup()
   WiFi.mode(WIFI_OFF);
 }
 
+
+void setup()
+{
+  Wifi_setup();
+  DC3232_setup ();
+}
+
 void loop()
 {
   delay(1000);
   printLocalTime();
+  DC3232Func () ;
 }
