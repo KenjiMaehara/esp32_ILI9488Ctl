@@ -1,36 +1,31 @@
-#if defined(ESP8266)
-#include <ESP8266WiFi.h>          //https://github.com/esp8266/Arduino
-#else
 #include <WiFi.h>          //https://github.com/esp8266/Arduino
-#endif
-
-//needed for library
-#if defined(ESP8266)
-#include <ESP8266WebServer.h>
-#else
 #include <WebServer.h>
-#endif
 #include <DNSServer.h>
 #include <WiFiManager.h>          //https://github.com/tzapu/WiFiManager
 
-// select which pin will trigger the configuration portal when set to LOW
-// ESP-01 users please note: the only pins available (0 and 2), are shared 
-// with the bootloader, so always set them HIGH at power-up
-#define TRIGGER_PIN 0
+// Include the correct display library
+// For a connection via I2C using Wire include
+#include "SSD1306.h" // alias for `#include "SSD1306Wire.h"`
 
+// Include Unopuino32 pin definition
+#include "Unopuino32.h"
+
+// Initialize the OLED display using Wire library
+SSD1306  display(0x3c, GPSDA, GPSCL);
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
-  Serial.println("\n Starting");
+    display.init();
+    display.clear();
 
-  pinMode(TRIGGER_PIN, INPUT);
-}
+    display.flipScreenVertically();
+    display.setFont(ArialMT_Plain_10);
+    display.setTextAlignment(TEXT_ALIGN_LEFT);
 
+    // put your setup code here, to run once:
+    Serial.begin(115200);
+    Serial.println("\n Starting");
 
-void loop() {
-  // is configuration portal requested?
-  if ( digitalRead(TRIGGER_PIN) == LOW ) {
+    // is configuration portal requested?
     //WiFiManager
     //Local intialization. Once its business is done, there is no need to keep it around
     WiFiManager wifiManager;
@@ -49,7 +44,11 @@ void loop() {
 
     //WITHOUT THIS THE AP DOES NOT SEEM TO WORK PROPERLY WITH SDK 1.5 , update to at least 1.5.1
     //WiFi.mode(WIFI_STA);
-    
+
+    display.drawString(0, 0, "AP mode: OnDemandAP");
+    display.drawString(0, 10, "IP adrs: 192.168.4.1");
+    display.display();
+
     if (!wifiManager.startConfigPortal("OnDemandAP")) {
       Serial.println("failed to connect and hit timeout");
       delay(3000);
@@ -59,10 +58,19 @@ void loop() {
     }
 
     //if you get here you have connected to the WiFi
-    Serial.println("connected...yeey :)");
-  }
+    IPAddress ipadr = WiFi.localIP();
 
+    Serial.println("connected(^^)");
+    Serial.println("local ip");
+    Serial.println(ipadr);
+    Serial.println(WiFi.SSID());
+    display.clear();
+    display.drawString(0, 0, "connected (^^)");
+    display.drawString(0, 10, "SSID: " + WiFi.SSID());
+    display.drawString(0, 20, "IP adrs: " + (String)ipadr[0] + "." + (String)ipadr[1] + "." + (String)ipadr[2] + "." + (String)ipadr[3]);
+    display.display();
+}
 
+void loop() {
   // put your main code here, to run repeatedly:
-
 }
