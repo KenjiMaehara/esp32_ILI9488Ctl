@@ -18,7 +18,7 @@ RTC_DS3231 rtc;
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 void DC3232_setup () {
 
-  Wire.begin(25,26);
+  Wire.begin(25,26);        // Define(SDA, SCL)
    delay(10); 
   Serial.begin(115200);     // スケッチのツールのシリアルモニターをONすると、現在の時刻が表示される。
    delay(1000); 

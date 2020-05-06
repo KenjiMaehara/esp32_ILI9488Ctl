@@ -9,8 +9,8 @@
 #include <Wire.h>
 #include <RTClib.h>
 
-const char* ssid       = "Buffalo-G-6098";   //YOUR_SSID:MEL"Buffalo-A-6098"
-const char* password   = "4vheeeg737sby";   //YOUR_PASS:MEL"4vheeeg737sby"
+const char* ssid       = "TP-Link_CACC";   //YOUR_SSID:MEL"Buffalo-A-6098"
+const char* password   = "63281538";   //YOUR_PASS:MEL"4vheeeg737sby"
 
 const char* ntpServer = "pool.ntp.org";   //  NTP サービスを提供するタイムサーバ
 const long  gmtOffset_sec = 3600*8;       //  UCT時間に8時間を加算
