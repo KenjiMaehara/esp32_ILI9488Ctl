@@ -31,6 +31,19 @@ void DC3232_setup () {
 //    rtc.adjust(DateTime(2020, 5, 5, 14, 4, 0));     //RTCに最初に書き込む時間を設定2020年,5月,5日,14時,4分0秒、修正後、コメントアウトする。
 
 }
+
+
+
+void setTimeToRtc()
+{
+  //時刻補正
+  //     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  rtc.adjust(DateTime(gTimeinfo.tm_year - 100, gTimeinfo.tm_mon + 1, gTimeinfo.tm_mday, gTimeinfo.tm_hour, gTimeinfo.tm_min, gTimeinfo.tm_sec));     //RTCに最初に書き込む時間を設定2020年,5月,5日,14時,4分0秒、修正後、コメントアウトする。
+
+}
+
+
+
 void DC3232Func () {
     DateTime now = rtc.now();
      

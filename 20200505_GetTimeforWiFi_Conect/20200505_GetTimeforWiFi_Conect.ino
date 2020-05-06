@@ -16,15 +16,20 @@ const char* ntpServer = "pool.ntp.org";   //  NTP サービスを提供するタ
 const long  gmtOffset_sec = 3600*8;       //  UCT時間に8時間を加算
 const int   daylightOffset_sec = 3600;   //  NTP_Serverへの更新時間間隔 
 
+struct tm gTimeinfo;
+
+
 void printLocalTime()
 {
-  struct tm timeinfo;
-  if(!getLocalTime(&timeinfo)){
+  //struct tm timeinfo;
+  if(!getLocalTime(&gTimeinfo)){
     Serial.println("Failed to obtain time");
     return;
   }
-  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");   // 
+  Serial.println(&gTimeinfo, "%A, %B %d %Y %H:%M:%S");   // 
 }
+
+
 
 void Wifi_setup()
 {
@@ -53,11 +58,13 @@ void setup()
 {
   Wifi_setup();
   DC3232_setup ();
+  setTimeToRtc();
 }
 
 void loop()
 {
   delay(1000);
   printLocalTime();
-  DC3232Func () ;
+  DC3232Func ();
+  setTimeToRtc();
 }
