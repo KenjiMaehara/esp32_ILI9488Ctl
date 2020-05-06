@@ -9,6 +9,25 @@
 #include <Wire.h>
 #include <RTClib.h>
 
+#include "FS.h"
+#include <SPI.h>
+#include <TFT_eSPI.h>      // Hardware-specific library
+
+TFT_eSPI tft = TFT_eSPI(); // Invoke custom library
+
+
+
+unsigned long targetTime = 0;
+byte red = 31;
+byte green = 0;
+byte blue = 0;
+byte state = 0;
+unsigned int colour = red << 11; // Colour order is RGB 5+6+5 bits each
+
+
+
+uint16_t calData[5] = { 301, 3495, 393, 3211, 7 };
+
 const char* ssid       = "TP-Link_CACC";   //YOUR_SSID:MEL"Buffalo-A-6098"
 const char* password   = "63281538";   //YOUR_PASS:MEL"4vheeeg737sby"
 
@@ -17,6 +36,38 @@ const long  gmtOffset_sec = 3600*8;       //  UCT時間に8時間を加算
 const int   daylightOffset_sec = 3600;   //  NTP_Serverへの更新時間間隔 
 
 struct tm gTimeinfo;
+
+
+void task0(void* arg)
+ {
+    screenSetup();
+     while (1)
+     {
+        
+        screen001(calData);
+        screen002(calData);
+        //screen003(calData);
+        //screen004(calData);
+        delay(1000);
+     }
+ }
+
+ void task1(void* arg)
+ {
+    Wifi_setup();
+    DC3232_setup ();
+    setTimeToRtc();
+     
+     while (1)
+     {
+        DC3232Func();
+        delay(1000);
+     }
+ }
+
+
+
+
 
 
 void printLocalTime()
@@ -56,15 +107,15 @@ void Wifi_setup()
 
 void setup()
 {
-  Wifi_setup();
-  DC3232_setup ();
-  setTimeToRtc();
+     Serial.begin(115200);
+
+     // create tasks
+     xTaskCreatePinnedToCore(task0, "Task0", 4096, NULL, 1, NULL, 0);
+     xTaskCreatePinnedToCore(task1, "Task1", 4096, NULL, 1, NULL, 1);
 }
 
 void loop()
 {
-  delay(1000);
-  printLocalTime();
-  DC3232Func ();
-  setTimeToRtc();
+  delay(10);
+
 }
