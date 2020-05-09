@@ -39,7 +39,8 @@ struct tm gTimeinfo;
 
 
 void task0(void* arg)
- {
+{
+    Serial.print("*******task0 start*******");
     screenSetup();
      while (1)
      {
@@ -48,22 +49,24 @@ void task0(void* arg)
         screen002(calData);
         //screen003(calData);
         //screen004(calData);
-        delay(1000);
+        //delay(1000);
      }
- }
+}
 
- void task1(void* arg)
- {
-    Wifi_setup();
-    DC3232_setup ();
-    setTimeToRtc();
+void task1(void* arg)
+{
+    //Serial.print("*******task1 start*******");
+    //Wifi_setup();
+    //DC3232_setup ();
+    //setTimeToRtc();
      
      while (1)
      {
-        DC3232Func();
-        delay(1000);
+        
+        //DC3232Func();
+        //delay(1000);
      }
- }
+}
 
 
 
@@ -108,6 +111,7 @@ void Wifi_setup()
 void setup()
 {
      Serial.begin(115200);
+     Serial.print("setup task");
 
      // create tasks
      xTaskCreatePinnedToCore(task0, "Task0", 4096, NULL, 1, NULL, 0);
@@ -116,6 +120,6 @@ void setup()
 
 void loop()
 {
-  delay(10);
+  delay(1000);
 
 }
