@@ -28,8 +28,11 @@ unsigned int colour = red << 11; // Colour order is RGB 5+6+5 bits each
 
 uint16_t calData[5] = { 301, 3495, 393, 3211, 7 };
 
-const char* ssid       = "TP-Link_CACC";   //YOUR_SSID:MEL"Buffalo-A-6098"
-const char* password   = "63281538";   //YOUR_PASS:MEL"4vheeeg737sby"
+//const char* ssid       = "TP-Link_CACC";   //YOUR_SSID:MEL"Buffalo-A-6098"
+//const char* password   = "63281538";   //YOUR_PASS:MEL"4vheeeg737sby"
+
+const char* ssid       = "Buffalo-G-6098";   //YOUR_SSID:MEL"Buffalo-G-6098"
+const char* password   = "4vheeeg737sby";   //YOUR_PASS:MEL"4vheeeg737sby"
 
 const char* ntpServer = "pool.ntp.org";   //  NTP サービスを提供するタイムサーバ
 const long  gmtOffset_sec = 3600*8;       //  UCT時間に8時間を加算
@@ -39,7 +42,10 @@ struct tm gTimeinfo;
 
 
 void task0(void* arg)
- {
+{
+
+    //Serial.begin(115200);
+    Serial.print("task0 start");
     screenSetup();
      while (1)
      {
@@ -50,10 +56,25 @@ void task0(void* arg)
         //screen004(calData);
         delay(1000);
      }
- }
+ 
+
+  /*     
+   *      
+    while (1)
+     {
+         static int count = 0;
+         Serial.print("task 0 : ");
+         Serial.println(count++);
+         delay(1000);
+     }
+   */
+}
 
  void task1(void* arg)
- {
+{
+  /*
+    Serial.begin(115200);
+    Serial.println("task1 start");
     Wifi_setup();
     DC3232_setup ();
     setTimeToRtc();
@@ -63,7 +84,17 @@ void task0(void* arg)
         DC3232Func();
         delay(1000);
      }
- }
+  */
+  /*
+     while (1)
+     {
+         static int count = 0;
+         Serial.print("task 1 : ");
+         Serial.println(count++);
+         delay(2000);
+     }
+  */
+}
 
 
 
@@ -108,6 +139,7 @@ void Wifi_setup()
 void setup()
 {
      Serial.begin(115200);
+     Serial.print("setup start");
 
      // create tasks
      xTaskCreatePinnedToCore(task0, "Task0", 4096, NULL, 1, NULL, 0);
