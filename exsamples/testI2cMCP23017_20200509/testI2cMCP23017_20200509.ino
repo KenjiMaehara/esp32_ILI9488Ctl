@@ -8,6 +8,8 @@ uint8_t DEVICE_ADDRESS = 0x20;  // 2進 100000
 int pre_button = LOW;  
  
 void setup() {
+
+  Serial.begin(115200);
   pinMode(27,INPUT);
   
   // マスタとしてI2Cバスに接続する
@@ -19,9 +21,11 @@ void setup() {
     Wire.write(0x00);
     // I/O設定Aの全てを出力設定にする
     Wire.write(0x00);
-    // I/O設定Bの全てを出力設定にする
+    //// I/O設定Bの全てを出力設定にする
     Wire.write(0x00);    
   Wire.endTransmission();
+
+
  
   // GPIOA(GPA0～GPA7)
   Wire.beginTransmission(DEVICE_ADDRESS);
@@ -34,7 +38,7 @@ void setup() {
   Wire.beginTransmission(DEVICE_ADDRESS);
     Wire.write(0x13);
     //  GPB0をLOW(入力)でそれ以外のGPBピンはHIGH(出力)にする
-    Wire.write(0xfe); // 2進 11111110
+    Wire.write(0xff); // 2進 11111110
   Wire.endTransmission();   
 }
  
@@ -46,16 +50,32 @@ void loop() {
         Wire.write(0x13);      
         Wire.write(0xff); // 2進 11111111
       Wire.endTransmission();
+      
+      Wire.beginTransmission(DEVICE_ADDRESS);
+        Wire.write(0x12);      
+        Wire.write(0xff); // 2進 11111111
+      Wire.endTransmission();
+      
       pre_button = HIGH;
+      delay(100);
+      Serial.println("IO27 HIGH");
     }    
   }else{
     if(pre_button != LOW){    
       // GPB0をLOW(入力)でそれ以外のGPBピンはHIGH(出力)にする
       Wire.beginTransmission(DEVICE_ADDRESS);
         Wire.write(0x13);      
-        Wire.write(0xfe); // 2進 11111110
+        Wire.write(0x00); // 2進 11111110
       Wire.endTransmission();
+
+      Wire.beginTransmission(DEVICE_ADDRESS);
+        Wire.write(0x12);      
+        Wire.write(0x00); // 2進 11111110
+      Wire.endTransmission();
+      
       pre_button = LOW;
+      delay(100);
+      Serial.println("IO27 LOW");
     }
   }
 }  
