@@ -23,14 +23,14 @@ const char* UTF8SJIS_file = "/font/Utf8Sjis.tbl"; //UTF8 Shift_JIS 変換テー�
 const char* Shino_Zen_Font_file = "/font/shnmk16.bdf"; //全角フォントファイル名を定義
 const char* Shino_Half_Font_file = "/font/shnm8x16.bdf"; //半角フォントファイル名を定義
  
-const uint8_t CS_SD = 5; //SD card CS ( Chip Select )
+const uint8_t CS_SD = 15; //SD card CS ( Chip Select )
  
-const uint8_t SCLK_OLED =  14; //SCLK
-const uint8_t MOSI_OLED =  13; //MOSI (Master Output Slave Input)
-const uint8_t MISO_OLED =  12; //これは実際は使っていない。MISO (Master Input Slave Output)
-const uint8_t CS_OLED = 15;
-const uint8_t DC_OLED =  16; //OLED DC(Data/Command)
-const uint8_t RST_OLED =  4; //OLED Reset
+const uint8_t SCLK_OLED =  18; //SCLK
+const uint8_t MOSI_OLED =  23; //MOSI (Master Output Slave Input)
+const uint8_t MISO_OLED =  19; //これは実際は使っていない。MISO (Master Input Slave Output)
+const uint8_t CS_OLED = 5;
+const uint8_t DC_OLED =  17; //OLED DC(Data/Command)
+const uint8_t RST_OLED =  16; //OLED Reset
  
 ESP32_SSD1331 ssd1331(SCLK_OLED, MISO_OLED, MOSI_OLED, CS_OLED, DC_OLED, RST_OLED);
  
