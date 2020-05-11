@@ -17,7 +17,7 @@
 
 #include "ESP32_SD_ShinonomeFNT.h"
 #include "ESP32_SD_UTF8toSJIS.h"
-// #include "ESP32_SSD1331.h"                                   //20200508_TFT_480*320に変更の為、使用しない
+#include "ESP32_SSD1331.h"                                   //20200508_TFT_480*320に変更の為、使用しない
  
 const char* UTF8SJIS_file = "/font/Utf8Sjis.tbl"; //UTF8 Shift_JIS 変換テーブルファイル名を記載しておく
 const char* Shino_Zen_Font_file = "/font/shnmk16.bdf"; //全角フォントファイル名を定義
