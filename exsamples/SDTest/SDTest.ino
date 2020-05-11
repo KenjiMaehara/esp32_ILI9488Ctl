@@ -2,7 +2,7 @@
 #include <SD.h>
 
 // CSを5に設定
-const uint8_t cs_SD = 15; 
+const uint8_t cs_SD = 5; 
 
 ///ESP_Densou_test.txtというファイルがSDに生成される
 const char* fname = "/ESP_Densou_test.txt";
