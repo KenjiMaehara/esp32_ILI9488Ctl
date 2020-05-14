@@ -1,6 +1,6 @@
 #include <SD.h>
   
-int cs_SD = 15;
+int cs_SD = 5;
 const char* f_name ="/test1.txt";
 int bangou = 0;
 File myFile;
@@ -33,7 +33,7 @@ if (!SD.begin(cs_SD)){
  }else{
   Serial.print(" : Card kakikomi shippai");   
  }
-}
   
 delay(1000);
  }
+}
