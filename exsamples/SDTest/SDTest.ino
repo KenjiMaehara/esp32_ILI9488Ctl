@@ -1,6 +1,6 @@
 #include <SD.h>
   
-int cs_SD = 5;
+int cs_SD = 15;
 const char* f_name ="/test1.txt";
 int bangou = 0;
 File myFile;
