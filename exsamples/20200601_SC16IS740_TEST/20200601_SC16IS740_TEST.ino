@@ -14,6 +14,9 @@ SC16IS750 i2cuart = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AA);
 //#define baudrate 460800
 //#define baudrate 921600
 
+int count=0;
+int oldCount=0;
+
 void setup()
 {
   Serial.begin(115200);
@@ -27,7 +30,9 @@ void setup()
   // UART to Serial Bridge Initialization
   delay(100);
   i2cuart.begin(baudrate);               //baudrate setting
-  delay(100);
+  delay(1000);
+
+  
   if (i2cuart.ping()!=1) {
       Serial.println("device not found");
       while(1);
@@ -40,23 +45,44 @@ void setup()
 
 void loop()
 {
+  
   static char buffer[64] = {0};
   static int index = 0;
 
+  Serial.println("------i2c write start ----------");
+  while(1)
+  {
+  i2cuart.write(count);
+  while(i2cuart.available()==0);
+  delay(10);
+  count++;
+
+  if(count > oldCount+20)
+  {
+    oldCount = count;
+    i2cuart.write(0x0a);
+    while(i2cuart.available()==0);
+    i2cuart.write(0x0d);
+    //while(i2cuart.available()==0);
+
+    if(count>100)
+    {
+      oldCount=0;
+      count=0;
+    }
+    break;
+
+  }
+  }
+  
+  delay(5000);
+
+  Serial.println("------i2c read start ----------");
+  while(1)
+  {
   if (i2cuart.available() > 0){
     // read the incoming byte:
     char c = i2cuart.read();
-
-#if 0
-    Serial.print("c=");
-    if (c < 0x20) {
-      Serial.print(" ");
-    } else {
-      Serial.print(c);
-    }
-    Serial.print(" 0x");
-    Serial.println(c,HEX);
-#endif
 
     if (c == 0x0d) {
 
@@ -65,9 +91,17 @@ void loop()
       Serial.print(buffer);
       Serial.println("]");
       index = 0;
+      break;
     } else {
       buffer[index++] = c;
       buffer[index] = 0;
     }
+
+    if (i2cuart.available()==0)
+    {
+      break;
+    }
+  }
+
   }
 }
