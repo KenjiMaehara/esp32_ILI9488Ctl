@@ -45,63 +45,23 @@ void setup()
 
 void loop()
 {
-  
-  static char buffer[64] = {0};
+  char buffer02[64] = {0};
+  //static char buffer[64] = {0};
   static int index = 0;
 
+
+  //printf("testesetwetewjiofjie \n");
+  strcpy(buffer02,"testesetwetewjiofjieowjofjweonmfowenfownownofnwe \n");
+  printf(" buffer02 = %s\n", buffer02);
+
   Serial.println("------i2c write start ----------");
-  while(1)
-  {
-  i2cuart.write(count);
-  while(i2cuart.available()==0);
-  delay(10);
-  count++;
 
-  if(count > oldCount+20)
-  {
-    oldCount = count;
-    i2cuart.write(0x0a);
-    while(i2cuart.available()==0);
-    i2cuart.write(0x0d);
-    //while(i2cuart.available()==0);
-
-    if(count>100)
+    for(int j=0;j<20;j++)
     {
-      oldCount=0;
-      count=0;
+      i2cuart.write(buffer02[j]);
+        delay(10);
     }
-    break;
-
-  }
-  }
   
   delay(5000);
 
-  Serial.println("------i2c read start ----------");
-  while(1)
-  {
-  if (i2cuart.available() > 0){
-    // read the incoming byte:
-    char c = i2cuart.read();
-
-    if (c == 0x0d) {
-
-    } else if (c == 0x0a) {
-      Serial.print("[");
-      Serial.print(buffer);
-      Serial.println("]");
-      index = 0;
-      break;
-    } else {
-      buffer[index++] = c;
-      buffer[index] = 0;
-    }
-
-    if (i2cuart.available()==0)
-    {
-      break;
-    }
-  }
-
-  }
 }
