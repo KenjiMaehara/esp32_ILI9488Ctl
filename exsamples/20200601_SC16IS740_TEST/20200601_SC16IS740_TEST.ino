@@ -19,11 +19,11 @@ int oldCount=0;
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(baudrate);
 
    //int SDA1=21   ;GPIO21を割当     2020/0528追加      
    //int SCL1=22   ;GPIO22を割当     2020/0528追加
-  Wire.begin(21,22);  // wake up I2C bus　     2020/0528追加  
+  Wire.begin(21,22,400000);  // wake up I2C bus　     2020/0528追加  
 
 
   Serial.println("start i2cuart");
@@ -56,6 +56,8 @@ void loop()
 
   Serial.println("------i2c write start ----------");
 
+  //i2cuart.EnableTransmit(1);
+  
     for(int j=0;j<20;j++)
     {
       i2cuart.write(buffer02[j]);
