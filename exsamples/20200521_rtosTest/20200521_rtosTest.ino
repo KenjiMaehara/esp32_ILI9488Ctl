@@ -23,7 +23,7 @@ void setup()
   /* create task */
   xTaskCreatePinnedToCore( task1,   /* タスクの入口となる関数名 */
                            "TASK1", /* タスクの名称 */
-                           8192,   /* スタックサイズ */
+                           4096,   /* スタックサイズ */
                            NULL,    /* パラメータのポインタ */
                            1,       /* プライオリティ */
                            NULL,    /* ハンドル構造体のポインタ */
@@ -31,9 +31,17 @@ void setup()
 
   xTaskCreatePinnedToCore( task2,
                            "TASK2",
-                           8192,
+                           4096,
                            NULL,
                            2,
+                           NULL,
+                           0 );
+
+  xTaskCreatePinnedToCore( task_SC16IS740_TEST,
+                           "TASK_SC16IS740_TEST",
+                           4096,
+                           NULL,
+                           3,
                            NULL,
                            0 );
 }
