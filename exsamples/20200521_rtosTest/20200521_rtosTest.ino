@@ -44,6 +44,15 @@ void setup()
                            3,
                            NULL,
                            0 );
+
+  xTaskCreatePinnedToCore( task_SDTest,
+                           "TASK_SDTest",
+                           4096,
+                           NULL,
+                           4,
+                           NULL,
+                           0 );
+
 }
 
 void loop()
