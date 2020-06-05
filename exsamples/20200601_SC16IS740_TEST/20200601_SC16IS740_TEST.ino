@@ -49,21 +49,57 @@ void loop()
   //static char buffer[64] = {0};
   static int index = 0;
 
-
-  //printf("testesetwetewjiofjie \n");
-  strcpy(buffer02,"testesetwetewjiofjieowjofjweonmfowenfownownofnwe \n");
-  printf(" buffer02 = %s\n", buffer02);
-
   Serial.println("------i2c write start ----------");
+  strcpy(buffer02,"01234567890123456789\n\r");
+  printf(" buffer02 = %s\n", buffer02);
 
   //i2cuart.EnableTransmit(1);
   
-    for(int j=0;j<20;j++)
+    for(int j=0;j<sizeof(buffer02);j++)
     {
       i2cuart.write(buffer02[j]);
         delay(10);
     }
+    i2cuart.write(0x0a);
   
-  delay(5000);
+  delay(1000);
 
+ Serial.println("------i2c read start ----------");
+ char buffer03[64] = {0};
+ 
+  while(1)
+  {
+  if (i2cuart.available() > 0){
+    // read the incoming byte:
+    char c = i2cuart.read();
+
+    if (c == 0x0d) {
+
+    } else if (c == 0x0a) {
+      Serial.print("[");
+      Serial.print(buffer03);
+      Serial.println("]");
+      Serial.println();
+      Serial.println();
+      index = 0;
+      //break;
+    } else {
+      buffer03[index++] = c;
+      buffer03[index] = 0;
+    }
+
+    if(index > 60)
+    {
+      index = 0;
+    }
+
+  }
+  else
+  {
+      index = 0;
+      break;
+  }
+
+  }
+  delay(5000);
 }
