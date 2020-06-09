@@ -28,7 +28,7 @@ void setup() {
       delay(500);
       Serial.print("#");
       // 30秒以上接続できなかったら抜ける
-      if ( 30000 < millis() ) {
+      if ( 1800000 < millis() ) {
         Serial.println("");
         Serial.println("Reset");
         ESP.restart();
