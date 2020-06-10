@@ -23,7 +23,7 @@ void setup()
 
   /* create task */
 
-
+  #if 1
   xTaskCreatePinnedToCore( task_SDTest,
                            "TASK_SDTest",
                            4096,
@@ -31,8 +31,9 @@ void setup()
                            4,
                            NULL,
                            0 );
+  #endif
 
-  #if 1
+  #if 0
   xTaskCreatePinnedToCore( task_TFTScreen,
                            "TASK_TFTScreen",
                            4096,
