@@ -15,6 +15,8 @@ void setup()
   Serial.begin(115200);
   Serial.print("setup()\n");
 
+  setupTFTScreen();
+
   //pinMode(LED1PIN, OUTPUT);
   //pinMode(LED2PIN, OUTPUT);
   //digitalWrite(LED1PIN, LOW);  /* LED1 off */
@@ -52,7 +54,14 @@ void setup()
                            4,
                            NULL,
                            0 );
-
+                           
+  xTaskCreatePinnedToCore( task_TFTScreen,
+                           "TASK_SDTest",
+                           4096,
+                           NULL,
+                           5,
+                           NULL,
+                           0 );                           
 }
 
 void loop()

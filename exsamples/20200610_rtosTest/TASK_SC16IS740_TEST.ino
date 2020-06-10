@@ -35,7 +35,11 @@ void setupSC16IS740()
   
   if (i2cuart.ping()!=1) {
       Serial.println("device not found");
-      while(1);
+      while(1)
+      {
+      vTaskDelay(1000);
+      }
+      
   } else {
       Serial.println("device found");
   }
