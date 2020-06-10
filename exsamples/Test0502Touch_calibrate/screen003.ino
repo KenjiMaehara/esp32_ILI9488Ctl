@@ -2,7 +2,7 @@ void screen003(uint16_t calData[]) {
 
 
   // Use serial port
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   // Initialise the TFT screen
   tft.init();
