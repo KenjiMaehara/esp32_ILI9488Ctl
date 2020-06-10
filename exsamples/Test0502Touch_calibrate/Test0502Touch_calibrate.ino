@@ -41,7 +41,7 @@ void setup() {
   tft.setTouch(calData);
 
   // Calibrate the touch screen and retrieve the scaling factors
-  touch_calibrate(calData);
+  touch_calibrate200610(calData);
 
 /*
   // Replace above line with the code sent to Serial Monitor
@@ -75,32 +75,11 @@ void loop(void) {
 
 //------------------------------------------------------------------------------------------
 
-void Touch_calibrate(void) {
-
-  //TFT_Rainbow480();
-  
-  uint16_t x = 0, y = 0; // To store the touch coordinates
-
-  // Pressed will be set true is there is a valid touch on the screen
-  boolean pressed = tft.getTouch(&x, &y);
-
-  // Draw a white spot at the detected coordinates
-  if (pressed) {
-    tft.fillCircle(x, y, 2, TFT_WHITE);
-    //Serial.print("x,y = ");
-    //Serial.print(x);
-    //Serial.print(",");
-    //Serial.println(y);
-  }
-  
-}
-
-
 
 //------------------------------------------------------------------------------------------
 
 // Code to run a screen calibration, not needed when calibration values set in setup()
-void touch_calibrate(uint16_t calData[])
+void touch_calibrate200610(uint16_t calData[])
 {
   //uint16_t calData[5];
   uint8_t calDataOK = 0;
