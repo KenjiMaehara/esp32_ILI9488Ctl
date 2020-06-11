@@ -1,6 +1,6 @@
 #include <SD.h>
 
-int cs_SD = 15;
+int cs_SD = 5;
 const char* f_name ="/test1.txt";
 int bangou = 0;
 File myFile;
@@ -57,12 +57,15 @@ void task_SDTest( void *pvParameters ) {
     if(xStatus == pdTRUE)
     {
       sharedResource = 100;
-      Serial.print("shared resource change by task1 : ");
-      Serial.println(sharedResource);
+      //Serial.print("shared resource change by task1 : ");
+      //Serial.println(sharedResource);
     }
 
     xSemaphoreGive(xMutex);
-    delay(500);
+    vTaskDelay(1000);
+    //delay(500);
+    //vTaskDelay(2000);
+    //delay(500);
 
 
 

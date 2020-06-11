@@ -442,12 +442,13 @@ void task_TFTScreen( void *pvParameters ){
     if(xStatus == pdTRUE )
     {
       sharedResource = 1;
-      Serial.print("shared resource change by task2 : ");
-      Serial.println(sharedResource);
+      //Serial.print("shared resource change by task2 : ");
+      //Serial.println(sharedResource);
     }
 
     xSemaphoreGive(xMutex);
-    delay(1000);
+    vTaskDelay(10);
+    //delay(1000);
 
 
   }
