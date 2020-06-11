@@ -1,8 +1,8 @@
 /*
-  Sketch to generate the setup() calibration values, these are reported
-  to the Serial Monitor.
+Sketch to generate the setup() calibration values, these are reported
+to the Serial Monitor.
 
-  The sketch has been tested on the ESP8266 and screen with XPT2046 driver.
+The sketch has been tested on the ESP8266 and screen with XPT2046 driver.
 */
 
 #include "FS.h"
@@ -43,12 +43,12 @@ void setupTFTScreen() {
   // Calibrate the touch screen and retrieve the scaling factors
   touch_calibrate200610(calData);
 
-/*
+  /*
   // Replace above line with the code sent to Serial Monitor
   // once calibration is complete, e.g.:
   uint16_t calData[5] = { 286, 3534, 283, 3600, 6 };
   tft.setTouch(calData);
-*/
+  */
 
   // Clear the screen
   tft.fillScreen(TFT_BLACK);
@@ -165,11 +165,11 @@ uint8_t numberIndex = 0;
 // Create 15 keys for the keypad
 char keyLabel[15][5] = {"New", "Del", "Send", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "#" };
 uint16_t keyColor[15] = {TFT_RED, TFT_DARKGREY, TFT_DARKGREEN,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE
-                        };
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE
+};
 
 // Invoke the TFT_eSPI button class and create all the button objects
 TFT_eSPI_Button key[15];
@@ -205,7 +205,7 @@ void touch_calibrate()
       File f = SPIFFS.open(CALIBRATION_FILE, "r");
       if (f) {
         if (f.readBytes((char *)calData, 14) == 14)
-          calDataOK = 1;
+        calDataOK = 1;
         f.close();
       }
     }
@@ -296,9 +296,9 @@ void TFT_init(void){
 
 void task_TFTScreen( void *pvParameters ){
 
-     BaseType_t xStatus;
-     const TickType_t xTicksToWait = 500UL;
-     xSemaphoreGive(xMutex);
+  BaseType_t xStatus;
+  const TickType_t xTicksToWait = 500UL;
+  xSemaphoreGive(xMutex);
 
 
 
@@ -309,15 +309,15 @@ void task_TFTScreen( void *pvParameters ){
   Serial.begin(115200);
 
 
- TFT_init();
+  TFT_init();
 
   while(1)
   {
-         xStatus = xSemaphoreTake(xMutex, xTicksToWait);
+    xStatus = xSemaphoreTake(xMutex, xTicksToWait);
 
     if (screenChange == true) {
 
-       TFT_init();
+      TFT_init();
       if(screenCount == 0)
       {
         drawKeypadScreen001();
@@ -329,7 +329,7 @@ void task_TFTScreen( void *pvParameters ){
       else if (screenCount == 1) {
         drawKeypadScreen002();
         tft.setCursor(20, 30);    // Set cursor to x = 70, y = 175
-        tft.setTextColor(TFT_WHITE, TFT_BLACK);  // Set text colour to white and background to black        
+        tft.setTextColor(TFT_WHITE, TFT_BLACK);  // Set text colour to white and background to black
         tft.println("Screen002");
         Serial.print("drawKeypadScreen002\n");
       }
@@ -377,14 +377,14 @@ void task_TFTScreen( void *pvParameters ){
 
       if (key[b].justReleased())
       {
-          key[b].drawButton();     // draw normal
-          if(b==0)
-          {
-            screenCount++;
-            if(screenCount > 3)
-              screenCount = 0;
-            screenChange = true;
-          }
+        key[b].drawButton();     // draw normal
+        if(b==0)
+        {
+          screenCount++;
+          if(screenCount > 3)
+          screenCount = 0;
+          screenChange = true;
+        }
       }
 
       if (key[b].justPressed()) {
@@ -439,17 +439,17 @@ void task_TFTScreen( void *pvParameters ){
       }
     }
 
-         if(xStatus == pdTRUE )
-         {
-             sharedResource = 1;
-             Serial.print("shared resource change by task2 : ");
-             Serial.println(sharedResource);
-         }
+    if(xStatus == pdTRUE )
+    {
+      sharedResource = 1;
+      Serial.print("shared resource change by task2 : ");
+      Serial.println(sharedResource);
+    }
 
-         xSemaphoreGive(xMutex);
-         delay(1000);
+    xSemaphoreGive(xMutex);
+    delay(1000);
 
- 
+
   }
 }
 
@@ -470,11 +470,11 @@ void task_TFTScreen( void *pvParameters ){
 // Create 15 keys for the keypad
 char keyLabel_screen001[15][5] = {"next", "back", "Send", "a", "b", "c", "d", "e", "f", "g", "h", "i", ".", "0", "#" };
 uint16_t keyColor_screen001[15] = {TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE
-                        };
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE
+};
 
 
 void drawKeypadScreen001()
@@ -488,9 +488,9 @@ void drawKeypadScreen001()
       else tft.setFreeFont(LABEL2_FONT);
 
       key[b].initButton(&tft, KEY_X_screen001 + col * (KEY_W_screen001 + KEY_SPACING_X_screen001),
-                        KEY_Y_screen001 + row * (KEY_H_screen001 + KEY_SPACING_Y_screen001), // x, y, w, h, outline, fill, text
-                        KEY_W_screen001, KEY_H_screen001, TFT_WHITE, keyColor_screen001[b], TFT_WHITE,
-                        keyLabel_screen001[b], KEY_TEXTSIZE_screen001);
+      KEY_Y_screen001 + row * (KEY_H_screen001 + KEY_SPACING_Y_screen001), // x, y, w, h, outline, fill, text
+      KEY_W_screen001, KEY_H_screen001, TFT_WHITE, keyColor_screen001[b], TFT_WHITE,
+      keyLabel_screen001[b], KEY_TEXTSIZE_screen001);
       key[b].drawButton();
     }
   }
@@ -518,11 +518,11 @@ void drawKeypadScreen001()
 // Create 15 keys for the keypad
 char keyLabel_screen002[15][5] = {"next", "back", "Send", "a", "b", "c", "d", "e", "f", "g", "h", "i", ".", "0", "#" };
 uint16_t keyColor_screen002[15] = {TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE
-                        };
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE
+};
 
 
 void drawKeypadScreen002()
@@ -536,9 +536,9 @@ void drawKeypadScreen002()
       else tft.setFreeFont(LABEL2_FONT);
 
       key[b].initButton(&tft, KEY_X_screen002 + col * (KEY_W_screen002 + KEY_SPACING_X_screen002),
-                        KEY_Y_screen002 + row * (KEY_H_screen002 + KEY_SPACING_Y_screen002), // x, y, w, h, outline, fill, text
-                        KEY_W_screen002, KEY_H_screen002, TFT_WHITE, keyColor_screen002[b], TFT_WHITE,
-                        keyLabel_screen002[b], KEY_TEXTSIZE_screen002);
+      KEY_Y_screen002 + row * (KEY_H_screen002 + KEY_SPACING_Y_screen002), // x, y, w, h, outline, fill, text
+      KEY_W_screen002, KEY_H_screen002, TFT_WHITE, keyColor_screen002[b], TFT_WHITE,
+      keyLabel_screen002[b], KEY_TEXTSIZE_screen002);
       key[b].drawButton();
     }
   }
@@ -566,11 +566,11 @@ void drawKeypadScreen002()
 // Create 15 keys for the keypad
 char keyLabel_screen003[15][5] = {"next", "back", "Send", "a", "b", "c", "d", "e", "f", "g", "h", "i", ".", "0", "#" };
 uint16_t keyColor_screen003[15] = {TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE
-                        };
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE
+};
 
 
 void drawKeypadScreen003()
@@ -584,9 +584,9 @@ void drawKeypadScreen003()
       else tft.setFreeFont(LABEL2_FONT);
 
       key[b].initButton(&tft, KEY_X_screen003 + col * (KEY_W_screen003 + KEY_SPACING_X_screen003),
-                        KEY_Y_screen003 + row * (KEY_H_screen003 + KEY_SPACING_Y_screen003), // x, y, w, h, outline, fill, text
-                        KEY_W_screen003, KEY_H_screen003, TFT_WHITE, keyColor_screen003[b], TFT_WHITE,
-                        keyLabel_screen003[b], KEY_TEXTSIZE_screen003);
+      KEY_Y_screen003 + row * (KEY_H_screen003 + KEY_SPACING_Y_screen003), // x, y, w, h, outline, fill, text
+      KEY_W_screen003, KEY_H_screen003, TFT_WHITE, keyColor_screen003[b], TFT_WHITE,
+      keyLabel_screen003[b], KEY_TEXTSIZE_screen003);
       key[b].drawButton();
     }
   }
@@ -609,11 +609,11 @@ void drawKeypadScreen003()
 // Create 15 keys for the keypad
 char keyLabel_screen004[15][5] = {"next", "back", "Send", "a", "b", "c", "d", "e", "f", "g", "h", "i", ".", "0", "#" };
 uint16_t keyColor_screen004[15] = {TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE,
-                         TFT_BLUE, TFT_BLUE, TFT_BLUE
-                        };
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE,
+  TFT_BLUE, TFT_BLUE, TFT_BLUE
+};
 
 
 void drawKeypadScreen004()
@@ -627,9 +627,9 @@ void drawKeypadScreen004()
       else tft.setFreeFont(LABEL2_FONT);
 
       key[b].initButton(&tft, KEY_X_screen004 + col * (KEY_W_screen004 + KEY_SPACING_X_screen004),
-                        KEY_Y_screen004 + row * (KEY_H_screen004 + KEY_SPACING_Y_screen004), // x, y, w, h, outline, fill, text
-                        KEY_W_screen004, KEY_H_screen004, TFT_WHITE, keyColor_screen004[b], TFT_WHITE,
-                        keyLabel_screen004[b], KEY_TEXTSIZE_screen004);
+      KEY_Y_screen004 + row * (KEY_H_screen004 + KEY_SPACING_Y_screen004), // x, y, w, h, outline, fill, text
+      KEY_W_screen004, KEY_H_screen004, TFT_WHITE, keyColor_screen004[b], TFT_WHITE,
+      keyLabel_screen004[b], KEY_TEXTSIZE_screen004);
       key[b].drawButton();
     }
   }
