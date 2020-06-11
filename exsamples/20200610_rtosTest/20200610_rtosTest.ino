@@ -21,6 +21,8 @@ void setup()
   //digitalWrite(LED1PIN, LOW);  /* LED1 off */
   //digitalWrite(LED2PIN, LOW);  /* LED2 off */
 
+
+  setupTFTScreen();
   /* create task */
 
   #if 1
@@ -33,7 +35,7 @@ void setup()
                            0 );
   #endif
 
-  #if 0
+  #if 1
   xTaskCreatePinnedToCore( task_TFTScreen,
                            "TASK_TFTScreen",
                            4096,
