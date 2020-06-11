@@ -7,7 +7,8 @@
 //#define  LED1PIN   22    /* LED1のポート番号 */
 //#define  LED2PIN   23    /* LED2のポート番号 */
 
-
+ SemaphoreHandle_t xMutex = NULL;
+ int sharedResource = 0;
 
 
 void setup()
@@ -22,33 +23,44 @@ void setup()
   //digitalWrite(LED2PIN, LOW);  /* LED2 off */
 
 
-  setupTFTScreen();
+  //setupTFTScreen();
   /* create task */
 
-  #if 0
-  xTaskCreatePinnedToCore( task_SDTest,
+     xMutex = xSemaphoreCreateMutex();
+
+     if( xMutex != NULL )
+     {
+
+  #if 1
+  xTaskCreate( task_SDTest,
                            "TASK_SDTest",
-                           4096,
+                           configMINIMAL_STACK_SIZE,
                            NULL,
-                           4,
-                           NULL,
-                           0 );
+                           1,
+                           (TaskHandle_t *) NULL);
   #endif
 
   #if 1
-  xTaskCreatePinnedToCore( task_TFTScreen,
+  xTaskCreate( task_TFTScreen,
                            "TASK_TFTScreen",
-                           4096,
+                           configMINIMAL_STACK_SIZE,
                            NULL,
-                           5,
-                           NULL,
-                           0 );                           
-
+                           2,
+                           (TaskHandle_t *) NULL);                           
   #endif
+     }
+     else
+     {
+      while(1)
+      {
+              Serial.println("rtos mutex create error, stopped");
+             delay(1000);       
+      }
+     }
 }
 
 void loop()
 {
-  Serial.print("loop()\n");
-  vTaskDelay(1000);
+  //Serial.print("loop()\n");
+  //vTaskDelay(1000);
 }

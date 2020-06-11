@@ -294,7 +294,13 @@ void TFT_init(void){
 }
 
 
-void task_TFTScreen( void *param ){
+void task_TFTScreen( void *pvParameters ){
+
+     BaseType_t xStatus;
+     const TickType_t xTicksToWait = 500UL;
+     xSemaphoreGive(xMutex);
+
+
 
   int screenCount = 0;
   int screenChange = true;
@@ -307,6 +313,7 @@ void task_TFTScreen( void *param ){
 
   while(1)
   {
+         xStatus = xSemaphoreTake(xMutex, xTicksToWait);
 
     if (screenChange == true) {
 
@@ -431,7 +438,18 @@ void task_TFTScreen( void *param ){
         vTaskDelay(10);
       }
     }
-    vTaskDelay(10);
+
+         if(xStatus == pdTRUE )
+         {
+             sharedResource = 1;
+             Serial.print("shared resource change by task2 : ");
+             Serial.println(sharedResource);
+         }
+
+         xSemaphoreGive(xMutex);
+         delay(1000);
+
+ 
   }
 }
 
