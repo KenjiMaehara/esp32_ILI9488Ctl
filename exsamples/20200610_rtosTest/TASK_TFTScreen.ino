@@ -64,6 +64,23 @@ void setupTFTScreen() {
 //------------------------------------------------------------------------------------------
 
 
+void task_TFTScreen( void *param ) {
+
+  //setupTFTScreen();
+
+  while(1)
+  {
+
+  //TFT_Rainbow480();
+  screen001(calData);
+  screen002(calData);
+  screen003(calData);
+  screen004(calData);
+
+  }
+}
+
+
 //------------------------------------------------------------------------------------------
 
 

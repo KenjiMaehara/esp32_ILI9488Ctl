@@ -26,41 +26,32 @@ void setup()
   setupTFTScreen();
   /* create task */
 
-  xMutex = xSemaphoreCreateMutex();
 
-  if( xMutex != NULL )
-  {
+  #if 1
+  xTaskCreatePinnedToCore( task_SDTest,
+                           "TASK_SDTest",
+                           4096,
+                           NULL,
+                           4,
+                           NULL,
+                           0 );
+  #endif
 
-    #if 1
-    xTaskCreate( task_SDTest,
-      "TASK_SDTest",
-      configMINIMAL_STACK_SIZE,
-      NULL,
-      1,
-      (TaskHandle_t *) NULL);
-      #endif
+  #if 1
+  xTaskCreatePinnedToCore( task_TFTScreen,
+                           "TASK_TFTScreen",
+                           4096,
+                           NULL,
+                           5,
+                           NULL,
+                           0 );                           
 
-      #if 1
-      xTaskCreate( task_TFTScreen,
-        "TASK_TFTScreen",
-        configMINIMAL_STACK_SIZE,
-        NULL,
-        2,
-        (TaskHandle_t *) NULL);
-        #endif
-      }
-      else
-      {
-        while(1)
-        {
-          Serial.println("rtos mutex create error, stopped");
-          delay(1000);
-        }
-      }
-    }
+  #endif
+}
 
-    void loop()
-    {
-      //Serial.print("loop()\n");
-      //vTaskDelay(1000);
-    }
+void loop()
+{
+  Serial.print("loop()\n");
+  vTaskDelay(1000);
+}
+
