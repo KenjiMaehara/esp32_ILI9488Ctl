@@ -23,7 +23,9 @@ void setup()
   //digitalWrite(LED2PIN, LOW);  /* LED2 off */
 
 
-  setupTFTScreen();
+
+setupTFTScreen();
+
   /* create task */
 
 
