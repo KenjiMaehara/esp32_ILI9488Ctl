@@ -488,7 +488,7 @@ void screen002(uint16_t calData[]) {
 
 
   // Draw keypad
-  drawKeypadScreen002();
+  drawKeypadScreen001();
 
 
   tft.setTouch(calData);
@@ -580,53 +580,6 @@ void screen002(uint16_t calData[]) {
     }
   }
 }
-
-
-
-// Keypad start position, key sizes and spacing
-#define KEY_X_screen002 90 // Centre of key
-#define KEY_Y_screen002 96
-//#define KEY_W_screen002 62 // Width and height
-//#define KEY_H_screen002 30
-#define KEY_W_screen002 110 // Width and height
-#define KEY_H_screen002 60
-#define KEY_SPACING_X_screen002 18 // X and Y gap
-#define KEY_SPACING_Y_screen002 20
-#define KEY_TEXTSIZE_screen002 1   // Font size multiplier
-
-
-// Create 15 keys for the keypad
-char keyLabel_screen002[15][5] = {"next", "back", "Send", "a", "b", "c", "d", "e", "f", "g", "h", "i", ".", "0", "#" };
-uint16_t keyColor_screen002[15] = {TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE
-};
-
-
-void drawKeypadScreen002()
-{
-  // Draw the keys
-  for (uint8_t row = 0; row < 2; row++) {
-    for (uint8_t col = 0; col < 1; col++) {
-      uint8_t b = col + row * 1;
-
-      if (b < 3) tft.setFreeFont(LABEL1_FONT);
-      else tft.setFreeFont(LABEL2_FONT);
-
-      key[b].initButton(&tft, KEY_X_screen002 + col * (KEY_W_screen002 + KEY_SPACING_X_screen002),
-      KEY_Y_screen002 + row * (KEY_H_screen002 + KEY_SPACING_Y_screen002), // x, y, w, h, outline, fill, text
-      KEY_W_screen002, KEY_H_screen002, TFT_WHITE, keyColor_screen002[b], TFT_WHITE,
-      keyLabel_screen002[b], KEY_TEXTSIZE_screen002);
-      key[b].drawButton();
-    }
-  }
-}
-
-
-
-
 
 
 
@@ -663,7 +616,7 @@ void screen003(uint16_t calData[]) {
 
 
   // Draw keypad
-  drawKeypadScreen003();
+  drawKeypadScreen001();
 
 
   tft.setTouch(calData);
@@ -756,48 +709,6 @@ void screen003(uint16_t calData[]) {
   }
 }
 
-
-
-// Keypad start position, key sizes and spacing
-#define KEY_X_screen003 90 // Centre of key
-#define KEY_Y_screen003 96
-//#define KEY_W_screen003 62 // Width and height
-//#define KEY_H_screen003 30
-#define KEY_W_screen003 110 // Width and height
-#define KEY_H_screen003 60
-#define KEY_SPACING_X_screen003 18 // X and Y gap
-#define KEY_SPACING_Y_screen003 20
-#define KEY_TEXTSIZE_screen003 1   // Font size multiplier
-
-
-// Create 15 keys for the keypad
-char keyLabel_screen003[15][5] = {"next", "back", "Send", "a", "b", "c", "d", "e", "f", "g", "h", "i", ".", "0", "#" };
-uint16_t keyColor_screen003[15] = {TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE
-};
-
-
-void drawKeypadScreen003()
-{
-  // Draw the keys
-  for (uint8_t row = 0; row < 2; row++) {
-    for (uint8_t col = 0; col < 1; col++) {
-      uint8_t b = col + row * 1;
-
-      if (b < 3) tft.setFreeFont(LABEL1_FONT);
-      else tft.setFreeFont(LABEL2_FONT);
-
-      key[b].initButton(&tft, KEY_X_screen003 + col * (KEY_W_screen003 + KEY_SPACING_X_screen003),
-      KEY_Y_screen003 + row * (KEY_H_screen003 + KEY_SPACING_Y_screen003), // x, y, w, h, outline, fill, text
-      KEY_W_screen003, KEY_H_screen003, TFT_WHITE, keyColor_screen003[b], TFT_WHITE,
-      keyLabel_screen003[b], KEY_TEXTSIZE_screen003);
-      key[b].drawButton();
-    }
-  }
-}
 
 
 void screen004(uint16_t calData[]) {
@@ -831,7 +742,7 @@ void screen004(uint16_t calData[]) {
 
 
   // Draw keypad
-  drawKeypadScreen004();
+  drawKeypadScreen001();
 
 
   tft.setTouch(calData);
@@ -920,49 +831,6 @@ void screen004(uint16_t calData[]) {
         //delay(10); // UI debouncing
         vTaskDelay(10);
       }
-    }
-  }
-}
-
-
-
-// Keypad start position, key sizes and spacing
-#define KEY_X_screen004 90 // Centre of key
-#define KEY_Y_screen004 96
-//#define KEY_W_screen004 62 // Width and height
-//#define KEY_H_screen004 30
-#define KEY_W_screen004 110 // Width and height
-#define KEY_H_screen004 60
-#define KEY_SPACING_X_screen004 18 // X and Y gap
-#define KEY_SPACING_Y_screen004 20
-#define KEY_TEXTSIZE_screen004 1   // Font size multiplier
-
-
-// Create 15 keys for the keypad
-char keyLabel_screen004[15][5] = {"next", "back", "Send", "a", "b", "c", "d", "e", "f", "g", "h", "i", ".", "0", "#" };
-uint16_t keyColor_screen004[15] = {TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE,
-  TFT_BLUE, TFT_BLUE, TFT_BLUE
-};
-
-
-void drawKeypadScreen004()
-{
-  // Draw the keys
-  for (uint8_t row = 0; row < 2; row++) {
-    for (uint8_t col = 0; col < 1; col++) {
-      uint8_t b = col + row * 1;
-
-      if (b < 3) tft.setFreeFont(LABEL1_FONT);
-      else tft.setFreeFont(LABEL2_FONT);
-
-      key[b].initButton(&tft, KEY_X_screen004 + col * (KEY_W_screen004 + KEY_SPACING_X_screen004),
-      KEY_Y_screen004 + row * (KEY_H_screen004 + KEY_SPACING_Y_screen004), // x, y, w, h, outline, fill, text
-      KEY_W_screen004, KEY_H_screen004, TFT_WHITE, keyColor_screen004[b], TFT_WHITE,
-      keyLabel_screen004[b], KEY_TEXTSIZE_screen004);
-      key[b].drawButton();
     }
   }
 }
