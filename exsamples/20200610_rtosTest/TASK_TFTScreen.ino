@@ -65,7 +65,7 @@ void setupTFTScreen() {
 
 void task_TFTScreen( void *param ) {
 
-  setupTFTScreen();
+  //setupTFTScreen();
 
   while(1)
   {
