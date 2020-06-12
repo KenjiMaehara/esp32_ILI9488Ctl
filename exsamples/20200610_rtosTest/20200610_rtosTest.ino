@@ -24,36 +24,36 @@ void setup()
 
 
 
-setupTFTScreen();
+  setupTFTScreen();
 
   /* create task */
 
 
   #if 1
   xTaskCreatePinnedToCore( task_SDTest,
-                           "TASK_SDTest",
-                           4096,
-                           NULL,
-                           4,
-                           NULL,
-                           0 );
-  #endif
+    "TASK_SDTest",
+    4096,
+    NULL,
+    4,
+    NULL,
+    0 );
+    #endif
 
-  #if 1
-  xTaskCreatePinnedToCore( task_TFTScreen,
-                           "TASK_TFTScreen",
-                           4096,
-                           NULL,
-                           5,
-                           NULL,
-                           0 );                           
+    #if 1
+    xTaskCreatePinnedToCore( task_TFTScreen,
+      "TASK_TFTScreen",
+      4096,
+      NULL,
+      5,
+      NULL,
+      0 );
 
-  #endif
+      #endif
 }
+
 
 void loop()
 {
   Serial.print("loop()\n");
   vTaskDelay(1000);
 }
-
