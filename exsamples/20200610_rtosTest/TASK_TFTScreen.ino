@@ -289,7 +289,7 @@ void screen001(uint16_t calData[]) {
   Serial.begin(115200);
 
   // Initialise the TFT screen
-  tft.init();
+  //tft.init();
 
   // Set the rotation before we calibrate
   tft.setRotation(1);
@@ -464,7 +464,7 @@ void screen002(uint16_t calData[]) {
   Serial.begin(115200);
 
   // Initialise the TFT screen
-  tft.init();
+  //tft.init();
 
   // Set the rotation before we calibrate
   tft.setRotation(1);
@@ -639,7 +639,7 @@ void screen003(uint16_t calData[]) {
   Serial.begin(115200);
 
   // Initialise the TFT screen
-  tft.init();
+  //tft.init();
 
   // Set the rotation before we calibrate
   tft.setRotation(1);
@@ -807,7 +807,7 @@ void screen004(uint16_t calData[]) {
   Serial.begin(115200);
 
   // Initialise the TFT screen
-  tft.init();
+  //tft.init();
 
   // Set the rotation before we calibrate
   tft.setRotation(1);
