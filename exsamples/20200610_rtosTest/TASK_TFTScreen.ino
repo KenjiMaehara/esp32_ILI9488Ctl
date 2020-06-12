@@ -281,6 +281,43 @@ void status(const char *msg) {
 
 //------------------------------------------------------------------------------------------
 
+unsigned long drawTime = 0;
+
+void timeCharClock(void)
+{
+tft.setTextColor(TFT_BLACK); // Background is not defined so it is transparent
+    tft.setCursor (10, 60);
+    tft.setTextFont(1);        // Select font 1 which is the Adafruit GLCD font
+    //tft.print("Original Adafruit font!");
+
+    // The new larger fonts do not need to use the .setCursor call, coords are embedded
+    tft.setTextColor(TFT_BLACK); // Do not plot the background colour
+    // Overlay the black text on top of the rainbow plot (the advantage of not drawing the backgorund colour!)
+    //tft.drawCentreString("Font size 2", 160, 14, 2); // Draw text centre at position 120, 14 using font 2
+    //tft.drawCentreString("Font size 4", 160, 30, 4); // Draw text centre at position 120, 30 using font 4
+    tft.drawCentreString("2020-6-12-fri", 160, 54, 4);       // Draw text centre at position 120, 54 using font 6
+    tft.drawCentreString("12:34", 160, 100, 8);       // Draw text centre at position 120, 54 using font 6
+    //tft.drawCentreString("12.34 is in font 6", 160, 92, 2); // Draw text centre at position 120, 92 using font 2
+    // Note the x, y position is the top left corner of the first character printed!
+
+    // draw a floating point number
+    float pi = 3.14159; // Value to print
+    int precision = 3;  // Number of digits after decimal point
+    int xpos = 130;     // x position
+    int ypos = 110;     // y position
+    int font = 2;       // font number 2
+   // xpos += tft.drawFloat(pi, precision, xpos, ypos, font); // Draw rounded number and return new xpos delta for next print position
+    //tft.drawString(" is pi", xpos, ypos, font);             // Continue printing from new x position
+
+    tft.setTextSize(1);           // We are using a text size multiplier of 1
+
+    tft.setTextColor(TFT_BLACK);  // Set text colour to black, no background (so transparent)
+    //tft.setCursor(76, 150, 4);    // Set cursor to x = 76, y = 150 and use font 4
+    //tft.println("Transparent...");  // As we use println, the cursor moves to the next line
+}
+
+
+
 
 void screen001(uint16_t calData[]) {
 
@@ -309,11 +346,12 @@ void screen001(uint16_t calData[]) {
 
   tft.setCursor(20, 30);    // Set cursor to x = 70, y = 175
   tft.setTextColor(TFT_WHITE, TFT_BLACK);  // Set text colour to white and background to black
-  tft.println("Screen001");
+  //tft.println("Screen001");
 
 
   // Draw keypad
   drawKeypadScreen001();
+ 
 
 
   tft.setTouch(calData);
@@ -321,7 +359,7 @@ void screen001(uint16_t calData[]) {
 
   while(1)
   {
-
+    timeCharClock();
 
     uint16_t t_x = 0, t_y = 0; // To store the touch coordinates
 
@@ -410,14 +448,15 @@ void screen001(uint16_t calData[]) {
 
 
 // Keypad start position, key sizes and spacing
-#define KEY_X_screen001 90 // Centre of key
-#define KEY_Y_screen001 96
+//#define KEY_X_screen001 90 // Centre of key
+#define KEY_X_screen001 425 // Centre of key
+#define KEY_Y_screen001 40
 //#define KEY_W_screen001 62 // Width and height
-//#define KEY_H_screen001 30
+//#define KEY_H_screen001 60
 #define KEY_W_screen001 110 // Width and height
-#define KEY_H_screen001 60
+#define KEY_H_screen001 70
 #define KEY_SPACING_X_screen001 18 // X and Y gap
-#define KEY_SPACING_Y_screen001 20
+#define KEY_SPACING_Y_screen001 2
 #define KEY_TEXTSIZE_screen001 1   // Font size multiplier
 
 
