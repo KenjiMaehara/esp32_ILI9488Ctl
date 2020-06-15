@@ -41,7 +41,8 @@ void task_SDTest( void *param ) {
         Serial.print(" : Card kakikomi shippai");
       }
 
-      vTaskDelay(1000);
+      
     }
+    vTaskDelay(1000);
   }
 }

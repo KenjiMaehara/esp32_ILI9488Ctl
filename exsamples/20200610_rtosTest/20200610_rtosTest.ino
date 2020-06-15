@@ -25,6 +25,7 @@ void setup()
 
 
   setupTFTScreen();
+  setupWifi();
 
   /* create task */
 
