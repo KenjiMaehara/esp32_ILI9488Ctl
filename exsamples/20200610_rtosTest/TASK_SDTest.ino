@@ -5,12 +5,15 @@ const char* f_name ="/test1.txt";
 int bangou = 0;
 File myFile;
 
+
+int countTime = 0;
+
 void setupSDTest() {
   //Serial.begin(115200);
   SD.begin(cs_SD);
   Serial.println("SD_conect...");
   delay(10);
-  
+
 }
 void task_SDTest( void *param ) {
   //SD.begin(cs_SD);
@@ -41,8 +44,11 @@ void task_SDTest( void *param ) {
         Serial.print(" : Card kakikomi shippai");
       }
 
-      
+
     }
+    countTime++;
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+    printLocalTime();
     vTaskDelay(1000);
   }
 }

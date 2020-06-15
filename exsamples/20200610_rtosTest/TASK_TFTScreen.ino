@@ -289,14 +289,28 @@ tft.setTextColor(TFT_BLACK); // Background is not defined so it is transparent
     tft.setCursor (10, 60);
     tft.setTextFont(1);        // Select font 1 which is the Adafruit GLCD font
     //tft.print("Original Adafruit font!");
-
+    //tft.fillScreen(TFT_WHITE);
+    tft.fillRect(0, 80, 300, 100, TFT_DARKGREY);
     // The new larger fonts do not need to use the .setCursor call, coords are embedded
     tft.setTextColor(TFT_BLACK); // Do not plot the background colour
     // Overlay the black text on top of the rainbow plot (the advantage of not drawing the backgorund colour!)
     //tft.drawCentreString("Font size 2", 160, 14, 2); // Draw text centre at position 120, 14 using font 2
     //tft.drawCentreString("Font size 4", 160, 30, 4); // Draw text centre at position 120, 30 using font 4
     tft.drawCentreString("2020-6-12-fri", 160, 54, 4);       // Draw text centre at position 120, 54 using font 6
-    tft.drawCentreString("12:34", 160, 100, 8);       // Draw text centre at position 120, 54 using font 6
+    //tft.drawCentreString("12:34", 160, 100, 8);       // Draw text centre at position 120, 54 using font 6
+    //tft.drawNumber(countTime, 160, 100, 8);       // Draw text centre at position 120, 54 using font 6
+
+     //tft.setTextColor(TFT_WHITE, TFT_BLACK);
+       //drawTime = millis();
+
+     // Print all numbers from 0 to 999 in font 8 and calculate character draw time
+     //for (int i = 0; i < 100; i++) {
+      tft.drawCentreString(gTimeinfo[0], 10, 100, 7);
+      tft.drawCentreString(gTimeinfo[1], 10+20, 100, 7);
+      //tft.drawCentreString(gTimeinfo[2], 10+40, 100, 7);
+      //tft.drawNumber(gTimeinfo[3], 10+60, 100, 7);
+      //tft.drawNumber(gTimeinfo[4], 10+80, 100, 7);
+     //}
     //tft.drawCentreString("12.34 is in font 6", 160, 92, 2); // Draw text centre at position 120, 92 using font 2
     // Note the x, y position is the top left corner of the first character printed!
 
@@ -322,6 +336,7 @@ tft.setTextColor(TFT_BLACK); // Background is not defined so it is transparent
 void screen001(uint16_t calData[]) {
 
 
+  int i=0;
   // Use serial port
   Serial.begin(115200);
 
@@ -351,7 +366,7 @@ void screen001(uint16_t calData[]) {
 
   // Draw keypad
   drawKeypadScreen001();
- 
+
 
 
   tft.setTouch(calData);
@@ -359,7 +374,12 @@ void screen001(uint16_t calData[]) {
 
   while(1)
   {
-    timeCharClock();
+    i++;
+    if (i > 50) {
+      timeCharClock();
+      i=0;
+    }
+
 
     uint16_t t_x = 0, t_y = 0; // To store the touch coordinates
 
