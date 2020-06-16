@@ -4,6 +4,8 @@ void setupWifi() {
   // シリアル初期化
   Serial.begin(115200);
 
+  wifiConnectWaitScreen();
+
   // 前回接続時情報で接続する
   Serial.println("WiFi begin");
   WiFi.begin();
@@ -50,8 +52,10 @@ void setupWifi() {
     }
     Serial.println("");
     Serial.println("WiFi Connected.");
+    //wifiConnectResultScreen();
   }
 
+  wifiConnectResultScreen();
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 }

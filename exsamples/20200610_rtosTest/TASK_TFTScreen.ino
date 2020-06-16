@@ -66,6 +66,8 @@ void setupTFTScreen() {
 void task_TFTScreen( void *param ) {
 
   //setupTFTScreen();
+  tft.init();
+
 
   while(1)
   {
@@ -298,7 +300,16 @@ void timeCharClock(void)
     // Overlay the black text on top of the rainbow plot (the advantage of not drawing the backgorund colour!)
     //tft.drawCentreString("Font size 2", 160, 14, 2); // Draw text centre at position 120, 14 using font 2
     //tft.drawCentreString("Font size 4", 160, 30, 4); // Draw text centre at position 120, 30 using font 4
-    tft.drawNumber(gTimeinfo.tm_year, 160, 54, 4);       // Draw text centre at position 120, 54 using font 6
+    xPoint = 10;
+    int year = gTimeinfo.tm_year + 1900;
+    tft.drawNumber(year, xPoint, 54, 4);xPoint += 80;       // Draw text centre at position 120, 54 using font 6
+    tft.drawCentreString("-" , xPoint, 54, 4); xPoint += 10;
+    int month = gTimeinfo.tm_mon + 1;
+    tft.drawNumber(month, xPoint, 54, 4);xPoint += 30;
+    tft.drawCentreString("-" , xPoint, 54, 4); xPoint += 10;
+    tft.drawNumber(gTimeinfo.tm_mday, xPoint, 54, 4);xPoint += 40;
+    tft.drawCentreString("-" , xPoint, 54, 4); xPoint += 10;
+    tft.drawNumber(gTimeinfo.tm_wday, xPoint, 54, 4);xPoint += 60;
     //tft.drawCentreString("12:34", 160, 100, 8);       // Draw text centre at position 120, 54 using font 6
     //tft.drawNumber(countTime, 160, 100, 8);       // Draw text centre at position 120, 54 using font 6
 
@@ -307,12 +318,17 @@ void timeCharClock(void)
 
      // Print all numbers from 0 to 999 in font 8 and calculate character draw time
      //for (int i = 0; i < 100; i++) {
-     xPoint = 10;
+      xPoint = 10;
       tft.drawNumber(gTimeinfo.tm_hour , xPoint, 100, 7); xPoint += 80;
       tft.drawCentreString(":" , xPoint, 100, 7); xPoint += 10;
       tft.drawNumber(gTimeinfo.tm_min, xPoint, 100, 7); xPoint += 80;
       tft.drawCentreString(":" , xPoint, 100, 7); xPoint += 10;
       tft.drawNumber(gTimeinfo.tm_sec, xPoint, 100, 7);
+
+
+      //time_t time = mktime(&gTimeinfo);
+      //xPoint = 10;
+      //tft.drawNumber(time , xPoint, 200, 7); xPoint += 10;
       //tft.drawNumber(gTimeinfo[3], 10+60, 100, 7);
       //tft.drawNumber(gTimeinfo[4], 10+80, 100, 7);
      //}
@@ -335,6 +351,34 @@ void timeCharClock(void)
     //tft.println("Transparent...");  // As we use println, the cursor moves to the next line
 }
 
+
+
+void wifiConnectResultScreen(void)
+{
+  Serial.begin(115200);
+
+  tft.init();
+  tft.setRotation(1);
+  touch_calibrate();
+  tft.fillScreen(TFT_BLACK);
+  tft.fillRect(0, 0, 600, 320, TFT_BLACK);
+  tft.setTextColor(TFT_WHITE); // Do not plot the background colour
+  tft.drawCentreString("wifi connect success" , 10, 54, 4);
+  vTaskDelay(4000);
+}
+
+void wifiConnectWaitScreen(void)
+{
+  Serial.begin(115200);
+  tft.init();
+  tft.setRotation(1);
+  touch_calibrate();
+  tft.fillScreen(TFT_BLACK);
+  tft.fillRect(0, 0, 600, 320, TFT_BLACK);
+  tft.setTextColor(TFT_WHITE); // Do not plot the background colour
+  tft.drawCentreString("Please wifi setup" , 10, 54, 4);
+  //vTaskDelay(4000);
+}
 
 
 
