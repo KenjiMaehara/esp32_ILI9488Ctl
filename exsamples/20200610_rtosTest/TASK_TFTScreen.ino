@@ -285,7 +285,9 @@ unsigned long drawTime = 0;
 
 void timeCharClock(void)
 {
-tft.setTextColor(TFT_BLACK); // Background is not defined so it is transparent
+    int xPoint=0;
+
+    tft.setTextColor(TFT_BLACK); // Background is not defined so it is transparent
     tft.setCursor (10, 60);
     tft.setTextFont(1);        // Select font 1 which is the Adafruit GLCD font
     //tft.print("Original Adafruit font!");
@@ -296,7 +298,7 @@ tft.setTextColor(TFT_BLACK); // Background is not defined so it is transparent
     // Overlay the black text on top of the rainbow plot (the advantage of not drawing the backgorund colour!)
     //tft.drawCentreString("Font size 2", 160, 14, 2); // Draw text centre at position 120, 14 using font 2
     //tft.drawCentreString("Font size 4", 160, 30, 4); // Draw text centre at position 120, 30 using font 4
-    tft.drawCentreString("2020-6-12-fri", 160, 54, 4);       // Draw text centre at position 120, 54 using font 6
+    tft.drawNumber(gTimeinfo.tm_year, 160, 54, 4);       // Draw text centre at position 120, 54 using font 6
     //tft.drawCentreString("12:34", 160, 100, 8);       // Draw text centre at position 120, 54 using font 6
     //tft.drawNumber(countTime, 160, 100, 8);       // Draw text centre at position 120, 54 using font 6
 
@@ -305,9 +307,12 @@ tft.setTextColor(TFT_BLACK); // Background is not defined so it is transparent
 
      // Print all numbers from 0 to 999 in font 8 and calculate character draw time
      //for (int i = 0; i < 100; i++) {
-      tft.drawCentreString(gTimeinfo[0], 10, 100, 7);
-      tft.drawCentreString(gTimeinfo[1], 10+20, 100, 7);
-      //tft.drawCentreString(gTimeinfo[2], 10+40, 100, 7);
+     xPoint = 10;
+      tft.drawNumber(gTimeinfo.tm_hour , xPoint, 100, 7); xPoint += 80;
+      tft.drawCentreString(":" , xPoint, 100, 7); xPoint += 10;
+      tft.drawNumber(gTimeinfo.tm_min, xPoint, 100, 7); xPoint += 80;
+      tft.drawCentreString(":" , xPoint, 100, 7); xPoint += 10;
+      tft.drawNumber(gTimeinfo.tm_sec, xPoint, 100, 7);
       //tft.drawNumber(gTimeinfo[3], 10+60, 100, 7);
       //tft.drawNumber(gTimeinfo[4], 10+80, 100, 7);
      //}
