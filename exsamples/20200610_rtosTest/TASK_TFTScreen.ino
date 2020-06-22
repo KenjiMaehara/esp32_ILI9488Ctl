@@ -893,7 +893,7 @@ void screen004(uint16_t calData[]) {
 
   tft.setCursor(20, 30);    // Set cursor to x = 70, y = 175
   tft.setTextColor(TFT_WHITE, TFT_BLACK);  // Set text colour to white and background to black
-  tft.println("Screen004");
+  tft.println("Please push your key...");
 
 
   // Draw keypad
@@ -995,12 +995,12 @@ void screen004(uint16_t calData[]) {
 
 
 
-#define KEY_X_keyPad 10 // Centre of key
-#define KEY_Y_keyPad 50
+#define KEY_X_keyPad 55 // Centre of key
+#define KEY_Y_keyPad 120
 //#define KEY_W_screen001 62 // Width and height
 //#define KEY_H_screen001 60
 #define KEY_W_keyPad 110 // Width and height
-#define KEY_H_keyPad 70
+#define KEY_H_keyPad 50
 #define KEY_SPACING_X_keyPad 18 // X and Y gap
 #define KEY_SPACING_Y_keyPad 2
 #define KEY_TEXTSIZE_keyPad 1   // Font size multiplier
@@ -1008,7 +1008,7 @@ void screen004(uint16_t calData[]) {
 
 
 char keyLabel_keyPad[15][5] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#", ".", "0", "#" };
-uint16_t keyColor_keyPad[15] = {TFT_GREEN, TFT_BLUE, TFT_BLUE,
+uint16_t keyColor_keyPad[15] = {TFT_BLUE, TFT_BLUE, TFT_BLUE,
   TFT_BLUE, TFT_BLUE, TFT_BLUE,
   TFT_BLUE, TFT_BLUE, TFT_BLUE,
   TFT_BLUE, TFT_BLUE, TFT_BLUE,
@@ -1021,7 +1021,7 @@ void drawKeypadKeyPad()
   // Draw the keys
   for (uint8_t row = 0; row < 4; row++) {
     for (uint8_t col = 0; col < 3; col++) {
-      uint8_t b = col + row * 1;
+      uint8_t b = col + row * 3;
 
       if (b < 3) tft.setFreeFont(LABEL1_FONT);
       else tft.setFreeFont(LABEL2_FONT);
@@ -1040,6 +1040,7 @@ void drawKeypadKeyPad()
 
 void screenKeyPad(uint16_t calData[]) {
 
+  char tempNumberBuffer[NUM_LEN + 1] = "";
 
   // Use serial port
   Serial.begin(115200);
@@ -1065,12 +1066,13 @@ void screenKeyPad(uint16_t calData[]) {
 
   tft.setCursor(20, 30);    // Set cursor to x = 70, y = 175
   tft.setTextColor(TFT_WHITE, TFT_BLACK);  // Set text colour to white and background to black
-  tft.println("Screen004");
+  tft.println("Please push your key...");
 
 
   // Draw keypad
   //drawKeypadpassKey();
   drawKeypadKeyPad();
+  //drawKeypadpassKey();
 
 
   tft.setTouch(calData);
@@ -1103,25 +1105,27 @@ void screenKeyPad(uint16_t calData[]) {
       if (key[b].justReleased())
       {
         key[b].drawButton();     // draw normal
-        if(b==0)
-        {
-          return;
-        }
+        //if(b==0)
+        //{
+          //return;
+        //}
       }
 
       if (key[b].justPressed()) {
         key[b].drawButton(true);  // draw invert
 
         // if a numberpad button, append the relevant # to the numberBuffer
-        if (b >= 3) {
+        if (b >= 0) {
           if (numberIndex < NUM_LEN) {
-            numberBuffer[numberIndex] = keyLabel[b][0];
+            numberBuffer[numberIndex] = keyLabel_keyPad[b][0];
             numberIndex++;
             numberBuffer[numberIndex] = 0; // zero terminate
           }
           status(""); // Clear the old status
         }
 
+
+        #if 0
         // Del button, so delete last char
         if (b == 1) {
           numberBuffer[numberIndex] = 0;
@@ -1143,14 +1147,19 @@ void screenKeyPad(uint16_t calData[]) {
           numberIndex = 0; // Reset index to 0
           numberBuffer[numberIndex] = 0; // Place null in buffer
         }
+        #endif
 
         // Update the number display field
         tft.setTextDatum(TL_DATUM);        // Use top left corner as text coord datum
         tft.setFreeFont(&FreeSans18pt7b);  // Choose a nicefont that fits box
         tft.setTextColor(DISP_TCOLOR);     // Set the font colour
 
+        tempNumberBuffer[numberIndex -1] = numberBuffer[numberIndex -1];
+        if (numberIndex > 2) {
+          tempNumberBuffer[numberIndex -1] = "4";
+        }
         // Draw the string, the value returned is the width in pixels
-        int xwidth = tft.drawString(numberBuffer, DISP_X + 4, DISP_Y + 12);
+        int xwidth = tft.drawString(tempNumberBuffer, DISP_X + 4, DISP_Y + 12);
 
         // Now cover up the rest of the line up by drawing a black rectangle.  No flicker this way
         // but it will not work with italic or oblique fonts due to character overlap.
