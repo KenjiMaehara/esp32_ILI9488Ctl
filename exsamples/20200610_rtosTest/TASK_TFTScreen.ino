@@ -790,7 +790,7 @@ void screen003(uint16_t calData[]) {
     boolean pressed = tft.getTouch(&t_x, &t_y);
 
     // / Check if any key coordinate boxes contain the touch coordinates
-    for (uint8_t b = 0; b < 15; b++) {
+    for (uint8_t b = 0; b < 1; b++) {
       if (pressed && key[b].contains(t_x, t_y)) {
         key[b].press(true);  // tell the button it is pressed
       } else {
@@ -799,7 +799,7 @@ void screen003(uint16_t calData[]) {
     }
 
     // Check if any key has changed state
-    for (uint8_t b = 0; b < 15; b++) {
+    for (uint8_t b = 0; b < 1; b++) {
 
       if (b < 3) tft.setFreeFont(LABEL1_FONT);
       else tft.setFreeFont(LABEL2_FONT);
@@ -1032,7 +1032,7 @@ void drawKeypadKeyPad()
 
       if (row == 4) {
         #if 1
-        key[b].initButton(&tft, KEY_X_keyPad + 3 * (KEY_W_keyPad  + KEY_SPACING_X_keyPad),
+        key[b].initButton(&tft, KEY_X_keyPad + 3 * (KEY_W_keyPad -5  + KEY_SPACING_X_keyPad),
         KEY_Y_keyPad + 3 * (KEY_H_keyPad + KEY_SPACING_Y_keyPad), // x, y, w, h, outline, fill, text
         KEY_W_keyPad - 20, KEY_H_keyPad, TFT_WHITE, keyColor_keyPad[b], TFT_WHITE,
         keyLabel_keyPad[b], KEY_TEXTSIZE_keyPad);
