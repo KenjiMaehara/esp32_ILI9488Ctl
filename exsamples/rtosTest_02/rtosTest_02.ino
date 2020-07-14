@@ -48,8 +48,17 @@ void setup()
       5,
       NULL,
       0 );
+    #endif
 
-      #endif
+    #if 1
+    xTaskCreatePinnedToCore( task_LEDDisplay,
+      "TASK_LEDDisplay",
+      4096,
+      NULL,
+      6,
+      NULL,
+      0 );
+    #endif
 }
 
 
