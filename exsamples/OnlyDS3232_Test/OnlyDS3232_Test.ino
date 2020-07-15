@@ -18,10 +18,10 @@ RTC_DS3231 rtc;
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 void setup () {
 
-  Wire.begin(25,26);
-   delay(10); 
+  Wire.begin(21,22);
+   delay(10);
   Serial.begin(115200);     // スケッチのツールのシリアルモニターをONすると、現在の時刻が表示される。
-   delay(1000); 
+   delay(1000);
   if (! rtc.begin()) {
     Serial.println("Not find RTC");
     while (1);
@@ -33,7 +33,7 @@ void setup () {
 }
 void loop () {
     DateTime now = rtc.now();
-     
+
     Serial.print(now.year(), DEC);
     Serial.print('/');
     Serial.print(now.month(), DEC);
@@ -47,7 +47,11 @@ void loop () {
     Serial.print(now.minute(), DEC);
     Serial.print(':');
     Serial.print(now.second(), DEC);
+    Serial.print("  tempelature:  ");
+    Serial.print(rtc.getTemperature(), DEC);
+    Serial.print("  cels");
     Serial.println();
-     
+
+
     delay(1000);
 }
