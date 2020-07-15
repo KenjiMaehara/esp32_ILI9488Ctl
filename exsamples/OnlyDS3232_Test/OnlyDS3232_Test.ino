@@ -48,7 +48,9 @@ void loop () {
     Serial.print(':');
     Serial.print(now.second(), DEC);
     Serial.print("  tempelature:  ");
-    Serial.print(rtc.getTemperature(), DEC);
+
+    int temperature = rtc.getTemperature();
+    Serial.print(temperature, DEC);
     Serial.print("  cels");
     Serial.println();
 
