@@ -9,7 +9,7 @@ Adafruit_MCP23017 mcp5;
 
 void setup() {
   Wire.begin(25,26);
-  mcp1.begin(0x00);
+  mcp1.begin(0x01);
   mcp2.begin(0x03);
   mcp3.begin(0x04);
   mcp4.begin(0x05);
