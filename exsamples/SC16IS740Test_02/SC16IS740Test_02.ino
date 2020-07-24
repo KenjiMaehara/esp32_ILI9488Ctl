@@ -10,7 +10,8 @@
 SC16IS750 i2cuart = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AA);
 SC16IS750 i2cuart02 = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AB);
 
-uint8_t reg_addr
+uint8_t gAddr[32];
+uint8_t gControl[32];
 
 
 //Connect TX and RX with a wire and run this sketch
@@ -64,7 +65,10 @@ uint8_t multiZoon(uint8_t reg_addr,uint8_t reg_ctr)
   if (i2cuart.available() > 0){
     // read the incoming byte:
     return i2cuart.read();
-    
+  }
+  else
+  {
+    Serial.println("no data");
   }
 }
 
