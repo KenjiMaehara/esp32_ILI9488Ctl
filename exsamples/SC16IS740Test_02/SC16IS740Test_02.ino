@@ -10,6 +10,9 @@
 SC16IS750 i2cuart = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AA);
 SC16IS750 i2cuart02 = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AB);
 
+uint8_t reg_addr
+
+
 //Connect TX and RX with a wire and run this sketch
 
 #define baudrate 9600
@@ -49,26 +52,29 @@ void setup()
   Serial.println(baudrate);
 }
 
-void loop()
+
+
+uint8_t multiZoon(uint8_t reg_addr,uint8_t reg_ctr)
 {
-  static char buffer[64] = {0};
-  static int index = 0;
+  i2cuart.write(0xef);
+  i2cuart.write(reg_addr);
+  i2cuart.write(reg_ctr);
+  i2cuart.write(0xfd);
 
   if (i2cuart.available() > 0){
     // read the incoming byte:
-    char c = i2cuart.read();
+    return i2cuart.read();
+    
+  }
+}
 
 
-    if (c == 0x0d) {
 
-    } else if (c == 0x0a) {
-      Serial.print("[");
-      Serial.print(buffer);
-      Serial.println("]");
-      index = 0;
-    } else {
-      buffer[index++] = c;
-      buffer[index] = 0;
-    }
+void loop()
+{
+
+  while(1)
+  {
+
   }
 }
