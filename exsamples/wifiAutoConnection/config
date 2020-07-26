@@ -1,0 +1,7 @@
+#device name     :ME20190207
+device name     :ME20190207B
+Secrity Company :testCampany
+aws server      :am5y9zzdy09g0-ats.iot.us-west-2.amazonaws.com
+aws server port :8883
+Pub Topic       :$aws/things/sub
+Sub Topic       :$aws/things/sub
