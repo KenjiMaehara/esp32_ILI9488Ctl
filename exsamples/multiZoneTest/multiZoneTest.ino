@@ -93,15 +93,15 @@ void loop()
   while(1)
   {
 
-    receive = multiZoon(0,0x05);
-    Serial.print("receive data : ");
-    Serial.println(receive);
-    delay(1000);
-    receive = multiZoon(0,0x0A);
-    Serial.print("receive data : ");
-    Serial.println(receive);
-    delay(1000);
-
-
+    for (size_t i = 0; i < 3; i++) {
+      receive = multiZoon(i,0x05);
+      Serial.print("receive data : ");
+      Serial.println(receive);
+      delay(100);
+      receive = multiZoon(i,0x0A);
+      Serial.print("receive data : ");
+      Serial.println(receive);
+      delay(100);
+    }
   }
 }
