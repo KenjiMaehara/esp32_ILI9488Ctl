@@ -89,19 +89,32 @@ uint8_t multiZoon(uint8_t reg_addr,uint8_t reg_ctr)
 void loop()
 {
   uint8_t receive;
+  int test=0;
 
   while(1)
   {
 
     for (size_t i = 0; i < 3; i++) {
-      receive = multiZoon(i,0x05);
+      if (test==0) {
+        receive = multiZoon(i,0x05);
+      }
+      else
+      {
+        receive = multiZoon(i,0x0A);
+      }
+
       Serial.print("receive data : ");
       Serial.println(receive);
       delay(100);
-      receive = multiZoon(i,0x0A);
-      Serial.print("receive data : ");
-      Serial.println(receive);
-      delay(100);
+
+    }
+
+    if (test != 0) {
+      test = 0;
+    }
+    else
+    {
+      test++;
     }
   }
 }
