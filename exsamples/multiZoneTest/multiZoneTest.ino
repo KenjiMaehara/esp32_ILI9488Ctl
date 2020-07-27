@@ -7,8 +7,8 @@
 #include <string.h>
 #include <SPI.h>
 
-SC16IS750 i2cuart = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AA);
-SC16IS750 i2cuart02 = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AB);
+SC16IS750 i2cuart = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AB);
+SC16IS750 i2cuart02 = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AA);
 
 uint8_t gAddr[32];
 uint8_t gControl[32];
@@ -55,30 +55,53 @@ void setup()
 
 
 
+
+
 uint8_t multiZoon(uint8_t reg_addr,uint8_t reg_ctr)
 {
-  i2cuart.write(0xef);
+  i2cuart.write(0xfe);
   i2cuart.write(reg_addr);
   i2cuart.write(reg_ctr);
   i2cuart.write(0xfd);
 
-  if (i2cuart.available() > 0){
-    // read the incoming byte:
-    return i2cuart.read();
+
+  uint8_t receive;
+
+  for (size_t i = 0; i < 4; i++) {
+    if (i2cuart.available() > 0){
+      // read the incoming byte:
+      if (i==2) {
+        receive = i2cuart.read();
+      }
+      else
+      {
+        i2cuart.read();
+      }
+    }
   }
-  else
-  {
-    Serial.println("no data");
-  }
+
+
+  return receive;
 }
 
 
 
 void loop()
 {
+  uint8_t receive;
 
   while(1)
   {
+
+    receive = multiZoon(0,0x05);
+    Serial.print("receive data : ");
+    Serial.println(receive);
+    delay(1000);
+    receive = multiZoon(0,0x0A);
+    Serial.print("receive data : ");
+    Serial.println(receive);
+    delay(1000);
+
 
   }
 }
