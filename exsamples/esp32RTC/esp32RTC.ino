@@ -7,12 +7,12 @@
  * 2．UCTからのデータから、現時点の年月時間の算出がうまくなく、時間のみが真値で年月日曜日は2001年水曜日のまま、更新していない。
  * 3．途中で、JST Timeの更新がかかり、時間がずれてしまう現象がある。
  * 4．
- *http://marchan.e5.valueserver.jp/cabin/comp/jbox/arc202/doc21102.html
+ *http://marchan.e5.valueserver.jp/cabin/comp/jbox/arc202/doc21102.html 
  * File:      esp32RTC.ino
  * Function:  Real time clock with NTP time correction and battery backup.
  * Date:      2018/01/09 (Source file: espRTC.ino 2017/01/16)
  * Author:    M.Ono
- *
+ * 
  * Hardware   MCU:  ESP32
  *            RTC:  DS1307 I2C Real tiime clock module.
  */
@@ -57,8 +57,8 @@ void setup() {
     Serial.begin(115200);     // TxD0,RxD0
 
     // Prepare I2C protocol.
-    Wire.begin(21,22);        // Define(SDA, SCL)
-
+    Wire.begin(25,26);        // Define(SDA, SCL)
+      
     // Prepare WiFi system.
     WiFi.begin(ssid, password);   //WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
@@ -116,12 +116,12 @@ int getTransitTime(String strTime)
 /* ======================== DS1307 Clock Control ============================*/
 
 /*
- * Read data from DS1307 Register
+ * Read data from DS1307 Register 
  */
 void getDateTime(ClockData *dt)
 {
     int iValue = 0;
-
+  
     Wire.beginTransmission(DS1307_ADDRESS); //DS1307_ADDRESS
     Wire.write(iValue);
     Wire.endTransmission();
@@ -141,7 +141,7 @@ void getDateTime(ClockData *dt)
 String tellDayOfWeek(byte num)
 {
     static String week[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-
+  
     if (num >= 1 && num <= 7)
       return week[num-1];
     else
@@ -167,7 +167,7 @@ void setTime(String sTime)
         Wire.write(minute);
         Wire.write(hour);
         Wire.endTransmission();
-    }
+    } 
 }
 
 /*
