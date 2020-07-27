@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include "Adafruit_MCP23017.h"
 
-Adafruit_MCP23017 mcp2;
+Adafruit_MCP23017 mcp1;
 
 int n=0;
 
@@ -12,8 +12,8 @@ void setup() {
   //Serial2.begin(115200);
 
   Wire.begin(25,26);
-  mcp2.begin(0x01);
-  mcp2.pinMode(11, OUTPUT);
+  mcp1.begin(0x00);
+  mcp1.pinMode(11, OUTPUT);
 
 }
 
@@ -27,9 +27,9 @@ void loop() {
     Serial.println(str);
     Serial.println("");
 
-    mcp2.digitalWrite(11, HIGH);
+    mcp1.digitalWrite(11, HIGH);
     delay(20);
-    mcp2.digitalWrite(11, LOW);
+    mcp1.digitalWrite(11, LOW);
     delay(100);
   }
 
