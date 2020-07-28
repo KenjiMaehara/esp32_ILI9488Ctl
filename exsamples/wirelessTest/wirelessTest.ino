@@ -10,8 +10,6 @@
 SC16IS750 i2cuart = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AA);
 SC16IS750 i2cuart02 = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AB);
 
-uint8_t gAddr[32];
-uint8_t gControl[32];
 
 
 //Connect TX and RX with a wire and run this sketch
@@ -56,65 +54,29 @@ void setup()
 
 
 
-
-uint8_t multiZoon(uint8_t reg_addr,uint8_t reg_ctr)
-{
-  i2cuart02.write(0xfe);
-  i2cuart02.write(reg_addr);
-  i2cuart02.write(reg_ctr);
-  i2cuart02.write(0xfd);
-
-
-  uint8_t receive;
-
-  for (size_t i = 0; i < 4; i++) {
-    if (i2cuart02.available() > 0){
-      // read the incoming byte:
-      if (i==2) {
-        receive = i2cuart02.read();
-      }
-      else
-      {
-        i2cuart02.read();
-      }
-    }
-  }
-
-
-  return receive;
-}
-
-
-
 void loop()
 {
-  uint8_t receive;
-  int test=0;
+  char receive;
+
 
   while(1)
   {
 
-    for (size_t i = 0; i < 3; i++) {
-      if (test==0) {
-        receive = multiZoon(i,0x05);
-      }
-      else
-      {
-        receive = multiZoon(i,0x0A);
-      }
-
-      Serial.print("receive data : ");
-      Serial.println(receive);
-      delay(100);
+    if (i2cuart.available() > 0){
+      // read the incoming byte:
+        receive = i2cuart.read();
+        if(receive != '\t')
+        {
+          Serial.print(receive);
+          Serial.print(",");
+        }
+        else
+        {
+          Serial.println();
+        }
 
     }
 
-    if (test != 0) {
-      test = 0;
-    }
-    else
-    {
-      test++;
-    }
   }
+
 }
