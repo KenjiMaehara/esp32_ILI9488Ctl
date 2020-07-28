@@ -7,8 +7,8 @@
 #include <string.h>
 #include <SPI.h>
 
-SC16IS750 i2cuart = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AB);
-SC16IS750 i2cuart02 = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AA);
+SC16IS750 i2cuart = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AA);
+SC16IS750 i2cuart02 = SC16IS750(SC16IS750_PROTOCOL_I2C,SC16IS750_ADDRESS_AB);
 
 uint8_t gAddr[32];
 uint8_t gControl[32];
@@ -59,23 +59,23 @@ void setup()
 
 uint8_t multiZoon(uint8_t reg_addr,uint8_t reg_ctr)
 {
-  i2cuart.write(0xfe);
-  i2cuart.write(reg_addr);
-  i2cuart.write(reg_ctr);
-  i2cuart.write(0xfd);
+  i2cuart02.write(0xfe);
+  i2cuart02.write(reg_addr);
+  i2cuart02.write(reg_ctr);
+  i2cuart02.write(0xfd);
 
 
   uint8_t receive;
 
   for (size_t i = 0; i < 4; i++) {
-    if (i2cuart.available() > 0){
+    if (i2cuart02.available() > 0){
       // read the incoming byte:
       if (i==2) {
-        receive = i2cuart.read();
+        receive = i2cuart02.read();
       }
       else
       {
-        i2cuart.read();
+        i2cuart02.read();
       }
     }
   }
