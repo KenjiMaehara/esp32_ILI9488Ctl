@@ -171,8 +171,8 @@ String tellDayOfWeek(byte num)
 //   static String week[] = {"日", "月", "火", "水", "木", "金", "土"};
     if (num >= 1 && num <= 7)
 
-      return week[num-1];
-//      return week[num+1];
+      //return week[num-1];
+      return week[num+1];
 
     else
       return "";
