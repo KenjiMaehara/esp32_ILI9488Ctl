@@ -169,11 +169,14 @@ String tellDayOfWeek(byte num)
 {
     static String week[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 //   static String week[] = {"日", "月", "火", "水", "木", "金", "土"};
+    Serial.println("");
+    Serial.print("check num :");
+    Serial.println(num);
     if (num >= 1 && num <= 7)
-
+    {
       //return week[num-1];
       return week[num+1];
-
+    }
     else
       return "";
 }
