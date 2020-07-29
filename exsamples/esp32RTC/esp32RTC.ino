@@ -4,29 +4,43 @@
  * WiFi環境が通信断になった場合、DS3231の年月日時間を元に表示する。
  * 現在、このスケッチには、次の問題が有る。
  * 1．ProgramがRestartの時、WiFiが接続されないと、Programそのものが起ち上がらない。
- * 2．UCTからのデータから、現時点の年月時間の算出がうまくなく、時間のみが真値で年月日曜日は2001年水曜日のまま、更新していない。
- * 3．途中で、JST Timeの更新がかかり、時間がずれてしまう現象がある。
- * 4．
- *http://marchan.e5.valueserver.jp/cabin/comp/jbox/arc202/doc21102.html 
+ * 2．WiFiから時間がとれなかった時は、DS3231RTCの時間で動作するようにする事。
+ * 3．WiFiの設定を簡単に設定できるようにする事。
+ * 4．曜日は漢字表記で御願いします。それと曜日が一致しません。Programを見直して修正を御願いします。
+ * 5．SQWに1Hzを出力するようにSetupしてあります。
+ * 6．温度を測定します。
+ * 7．温度の精度は、デジタル温度センサー出力精度：±3℃、最小単位0.25℃
+ *
+ *http://marchan.e5.valueserver.jp/cabin/comp/jbox/arc202/doc21102.html
  * File:      esp32RTC.ino
  * Function:  Real time clock with NTP time correction and battery backup.
  * Date:      2018/01/09 (Source file: espRTC.ino 2017/01/16)
  * Author:    M.Ono
- * 
+ *
  * Hardware   MCU:  ESP32
  *            RTC:  DS1307 I2C Real tiime clock module.
  */
+#include <RTClib.h>
 #include <Wire.h>
 #include <WiFi.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 
+#include "RTClib.h"
+RTC_DS3231 rtc;
+
 // I2C Address
-#define DS1307_ADDRESS 0x68   // Realtime clock
+#define DS3231_ADDRESS 0x68   // Realtime clock
 
 // WiFi connection
-const char* ssid = "Buffalo-G-6098";   //YOUR_SSID:MEL"Buffalo-A-6098"
-const char* password = "4vheeeg737sby";   //YOUR_PASS:MEL"4vheeeg737sby"
+//const char* ssid = "elecom2g-0a5417";   //YOUR_SSID:MEL"Buffalo-A-6098"
+//const char* password = "794u9w5t7cxi";   //YOUR_PASS:MEL"4vheeeg737sby"
+
+//const char* ssid = "Buffalo-A-6098";   //YOUR_SSID:MEL"Buffalo-A-6098"
+//const char* password = "4vheeeg737sby";   //YOUR_PASS:MEL"4vheeeg737sby"
+
+const char* ssid = "TP-Link_8DA0";   //YOUR_SSID:MEL"TP-Link_8DA0"
+const char* password = "69733970";   //YOUR_PASS:MEL"69733970"
 
 // Time adjust
 WiFiUDP ntpUDP;
@@ -57,8 +71,14 @@ void setup() {
     Serial.begin(115200);     // TxD0,RxD0
 
     // Prepare I2C protocol.
-    Wire.begin(25,26);        // Define(SDA, SCL)
-      
+    Wire.begin(21,22);        // Define(SDA1, SCL1)
+
+  // 20200513TEST追加　SQW 1Hz出力に設定
+   Wire.beginTransmission(0x68);         // RTC DS3231 ADRS 68h
+   Wire.write(0x0E);                     // ADRS:0Eh
+   Wire.write(0b01000000);              // SQW→1Hz出力 for BATT･Back Up Enable
+   Wire.endTransmission();               // Ends I2C communication
+
     // Prepare WiFi system.
     WiFi.begin(ssid, password);   //WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
@@ -96,9 +116,16 @@ void loop() {
     getDateTime(&dtClock);
     Serial.print("Now: ");
     Serial.print(editDateTime(dtClock));
-    Serial.print(" (");
+    Serial.print("(");
     Serial.print(tellDayOfWeek(dtClock.week));
-    Serial.println(")");
+   Serial.println(")");
+   Serial.print("  temp: ");
+   Serial.print(rtc.getTemperature());
+   Serial.print("  ℃");
+   Serial.println();
+
+
+
     delay(1000);
 }
 /*****************************************************************************/
@@ -116,16 +143,16 @@ int getTransitTime(String strTime)
 /* ======================== DS1307 Clock Control ============================*/
 
 /*
- * Read data from DS1307 Register 
+ * Read data from DS1307 Register
  */
 void getDateTime(ClockData *dt)
 {
     int iValue = 0;
-  
-    Wire.beginTransmission(DS1307_ADDRESS); //DS1307_ADDRESS
+
+    Wire.beginTransmission(DS3231_ADDRESS); //DS3231_ADDRESS
     Wire.write(iValue);
     Wire.endTransmission();
-    Wire.requestFrom(DS1307_ADDRESS, 7);    //DS1307_ADDRESS
+    Wire.requestFrom(DS3231_ADDRESS, 7);    //DS3231_ADDRESS
     dt->sec = Wire.read();
     dt->minute = Wire.read();
     dt->hour = Wire.read();
@@ -141,9 +168,12 @@ void getDateTime(ClockData *dt)
 String tellDayOfWeek(byte num)
 {
     static String week[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-  
+//   static String week[] = {"日", "月", "火", "水", "木", "金", "土"};
     if (num >= 1 && num <= 7)
+
       return week[num-1];
+//      return week[num+1];
+
     else
       return "";
 }
@@ -161,17 +191,17 @@ void setTime(String sTime)
         byte hour = (buf.charAt(0) << 4) + (buf.charAt(1) & 0x0f);
         byte minute = (buf.charAt(2) << 4) + (buf.charAt(3) & 0x0f);
         byte sec = (buf.charAt(4) << 4) + (buf.charAt(5) & 0x0f);
-        Wire.beginTransmission(DS1307_ADDRESS);
+        Wire.beginTransmission(DS3231_ADDRESS);
         Wire.write(bValue);
         Wire.write(sec);
         Wire.write(minute);
         Wire.write(hour);
         Wire.endTransmission();
-    } 
+    }
 }
 
 /*
- * Set DS1307 date register.
+ * Set DS3231 date register.
  *    Argument: (String)Time string 'yy/mm/dd/w'.
  */
 void setDate(String sDate)
@@ -189,7 +219,7 @@ void setDate(String sDate)
           if (week < 0x01 || week > 0x07)
             week = 0x01;
         }
-        Wire.beginTransmission(DS1307_ADDRESS);
+        Wire.beginTransmission(DS3231_ADDRESS);
         Wire.write(bValue);
         Wire.write(week);
         Wire.write(day);
@@ -200,7 +230,7 @@ void setDate(String sDate)
 }
 
 /*
- * Edit DS1307 date and time.
+ * Edit DS3231 date and time.
  */
 String editDateTime(ClockData dt)
 {
