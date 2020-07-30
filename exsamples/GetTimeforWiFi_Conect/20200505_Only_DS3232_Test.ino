@@ -18,10 +18,10 @@ RTC_DS3231 rtc;
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 void DC3232_setup () {
 
-  Wire.begin(25,26);        // Define(SDA, SCL)
+  Wire.begin(21,22);        // Define(SDA, SCL)
    delay(10); 
   Serial.begin(115200);     // スケッチのツールのシリアルモニターをONすると、現在の時刻が表示される。
-   delay(1000); 
+   delay(1000);
   if (! rtc.begin()) {
     Serial.println("Not find RTC");
     while (1);
@@ -46,7 +46,7 @@ void setTimeToRtc()
 
 void DC3232Func () {
     DateTime now = rtc.now();
-     
+
     Serial.print(now.year(), DEC);
     Serial.print('/');
     Serial.print(now.month(), DEC);
@@ -61,6 +61,6 @@ void DC3232Func () {
     Serial.print(':');
     Serial.print(now.second(), DEC);
     Serial.println();
-     
+
     delay(1000);
 }
