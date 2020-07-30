@@ -64,11 +64,12 @@ void DC3232Func () {
     Serial.println();
     #endif
 
-    getDateTime(&dtClock);
+    //getDateTime(&dtClock);
     Serial.print("Now: ");
-    Serial.print(editDateTime(dtClock));
+    Serial.print(editDateTime(now));
     Serial.print("(");
-    Serial.print(tellDayOfWeek(dtClock.week));
+  //  Serial.print(tellDayOfWeek(now.week));
+    Serial.print(daysOfTheWeek[now.dayOfTheWeek()]);
     Serial.println(")");
     Serial.print("  temp: ");
     Serial.print(rtc.getTemperature());
@@ -80,7 +81,7 @@ void DC3232Func () {
 
 
 
-String editDateTime(ClockData dt)
+String editDateTime(DateTime dt)
 {
     return editDate(dt) + " " + editTime(dt);
 }
@@ -88,11 +89,11 @@ String editDateTime(ClockData dt)
 /*
  * Edit time register.
  */
-String editTime(ClockData dt)
+String editTime(DateTime dt)
 {
     String buf = "";
     char wbuf[12];
-    sprintf(wbuf, "%02x:%02x:%02x", (int)dt.hour, (int)dt.minute, (int)dt.sec);
+    sprintf(wbuf, "%02d:%02d:%02d", (int)dt.hour(), (int)dt.minute(), (int)dt.second());
     buf.concat(wbuf);
     return buf;
 }
@@ -100,11 +101,11 @@ String editTime(ClockData dt)
 /*
  * Edit date register.
  */
-String editDate(ClockData dt)
+String editDate(DateTime dt)
 {
     String buf = "20";
     char wbuf[12];
-    sprintf(wbuf, "%02x/%02x/%02x", (int)dt.year, (int)dt.month, (int)dt.day);
+    sprintf(wbuf, "%02d/%02d/%02d", (int)dt.year(), (int)dt.month(), (int)dt.day());
     buf.concat(wbuf);
     return buf;
 }
