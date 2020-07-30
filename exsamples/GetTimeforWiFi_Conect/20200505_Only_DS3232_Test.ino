@@ -19,7 +19,7 @@ char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursd
 void DC3232_setup () {
 
   Wire.begin(21,22);        // Define(SDA, SCL)
-   delay(10); 
+   delay(10);
   Serial.begin(115200);     // スケッチのツールのシリアルモニターをONすると、現在の時刻が表示される。
    delay(1000);
   if (! rtc.begin()) {
@@ -47,6 +47,7 @@ void setTimeToRtc()
 void DC3232Func () {
     DateTime now = rtc.now();
 
+    #if 0
     Serial.print(now.year(), DEC);
     Serial.print('/');
     Serial.print(now.month(), DEC);
@@ -61,6 +62,49 @@ void DC3232Func () {
     Serial.print(':');
     Serial.print(now.second(), DEC);
     Serial.println();
+    #endif
+
+    getDateTime(&dtClock);
+    Serial.print("Now: ");
+    Serial.print(editDateTime(dtClock));
+    Serial.print("(");
+    Serial.print(tellDayOfWeek(dtClock.week));
+    Serial.println(")");
+    Serial.print("  temp: ");
+    Serial.print(rtc.getTemperature());
+    Serial.print("  ℃");
+    Serial.println();
 
     delay(1000);
+}
+
+
+
+String editDateTime(ClockData dt)
+{
+    return editDate(dt) + " " + editTime(dt);
+}
+
+/*
+ * Edit time register.
+ */
+String editTime(ClockData dt)
+{
+    String buf = "";
+    char wbuf[12];
+    sprintf(wbuf, "%02x:%02x:%02x", (int)dt.hour, (int)dt.minute, (int)dt.sec);
+    buf.concat(wbuf);
+    return buf;
+}
+
+/*
+ * Edit date register.
+ */
+String editDate(ClockData dt)
+{
+    String buf = "20";
+    char wbuf[12];
+    sprintf(wbuf, "%02x/%02x/%02x", (int)dt.year, (int)dt.month, (int)dt.day);
+    buf.concat(wbuf);
+    return buf;
 }
