@@ -24,7 +24,7 @@
 const char* server;
 
 
-int cs_SD = 15;
+int cs_SD = 5;
 WiFiMulti wifiMulti;
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
