@@ -42,6 +42,7 @@ void setup()
       Serial.println("i2cuart device found");
   }
 
+  i2cuart02.begin(baudrate);               //baudrate setting
   if (i2cuart02.ping()!=1) {
       Serial.println("i2cuart02 device not found");
       while(1);
